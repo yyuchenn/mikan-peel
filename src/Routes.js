@@ -12,6 +12,7 @@ import Border from "./Border/Border";
 import MainPage from "./MainPage/MainPage";
 import TasksPage from "./TasksPage/TasksPage";
 import LoginPage from "./LoginPage/LoginPage";
+import MangaPage from "./MangaPage/MangaPage";
 
 export default function Routes() {
     return (
@@ -27,6 +28,7 @@ export default function Routes() {
                     <Route path={"/login"}>
                         <LoginPage/>
                     </Route>
+                    <Route path={"/manga/:mid"} children={<MangaPage/>} />
                 </Switch>
             </Border>
         </Router>

@@ -10,14 +10,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 export default function Footer(props) {
-    const {ver} = props;
+    const {ver1, ver2} = props;
     const classes = useStyles();
     return (
         <div>
             <div className={classes.placeholder}/>
             <Divider />
             <Typography variant="body2" color="textSecondary" align="center">
-                Mikan v{ver}
+                Mikan v{ver1}, Mikan-Peel v{ver2}
             </Typography>
         </div>
     );
