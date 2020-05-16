@@ -12,6 +12,13 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import { useDispatch } from "react-redux";
+import {
+    useHistory,
+    useLocation
+} from "react-router-dom";
+import {auth} from "../controller/user";
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -34,6 +41,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    let history = useHistory();
+    let location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
+
+    let login = () => {
+        dispatch(auth(document.getElementById('uid').value, document.getElementById('pass').value));
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -51,9 +67,9 @@ export default function LoginPage() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
+                        id="uid"
                         label="用户名"
-                        name="email"
+                        name="uid"
                         autoComplete="uid"
                         autoFocus
                     />
@@ -62,10 +78,10 @@ export default function LoginPage() {
                         margin="normal"
                         required
                         fullWidth
-                        name="password"
+                        name="pass"
                         label="密码"
                         type="password"
-                        id="password"
+                        id="pass"
                         autoComplete="current-password"
                     />
                     <FormControlLabel
@@ -73,23 +89,23 @@ export default function LoginPage() {
                         label="记住我"
                     />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={login}
                     >
                         登录
                     </Button>
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">
-                                Forgot password?
+                                忘记密码？
                             </Link>
                         </Grid>
                         <Grid item>
                             <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                                {"加入我们"}
                             </Link>
                         </Grid>
                     </Grid>

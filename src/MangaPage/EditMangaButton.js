@@ -1,5 +1,4 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,17 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-const useStyles = makeStyles((theme) => ({
-    coverInputBox: {
-        display: "none"
-    }
-}));
-
 export default function EditMangaButton(props) {
-    const classes = useStyles();
-
-    const {} = props;
-
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {

@@ -4,8 +4,10 @@ import {makeStyles} from '@material-ui/core/styles';
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import Footer from "./Footer";
-import Box from "@material-ui/core/Box";
 import {desktopWidth} from "./Sidebar";
+
+import { useDispatch } from "react-redux";
+import {verifySession} from "../controller/user";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,7 +35,16 @@ const useStyles = makeStyles((theme) => ({
 
 function Border(props) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    React.useEffect( () => {
+        async function fetchData() {
+            await dispatch(verifySession());
+        }
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

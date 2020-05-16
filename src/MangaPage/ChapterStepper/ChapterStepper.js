@@ -1,7 +1,6 @@
 import React from 'react';
-import {makeStyles, withStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Stepper from "@material-ui/core/Stepper";
-import Typography from '@material-ui/core/Typography';
 import StepButton from "@material-ui/core/StepButton";
 import StepLabel from "@material-ui/core/StepLabel";
 import Step from "@material-ui/core/Step";

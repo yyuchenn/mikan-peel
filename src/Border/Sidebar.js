@@ -1,5 +1,4 @@
 import React from "react";
-import {Link, matchPath} from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -13,7 +12,6 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import FolderSharedIcon from '@material-ui/icons/FolderShared';
 import PeopleIcon from '@material-ui/icons/People';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ExtensionIcon from '@material-ui/icons/Extension';
 
 export const desktopWidth = 100;

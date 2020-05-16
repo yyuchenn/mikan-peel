@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import cover from '../temp/cover.jpeg';
 import {Chip} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,26 +43,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function MediaCard() {
+export default function MangaCard(props) {
     const classes = useStyles();
+    const {manga} = props;
 
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root}
+              component={Link} to={"/manga/" + manga.id}>
             <CardActionArea>
                 <CardMedia
                     component={"img"}
                     image={cover}
-                    title={"食物语食物语食物语食物语食物语"}
+                    title={manga.name}
                 />
                 <Box display={"flex"} flexDirection={"row-reverse"} flexWrap="wrap" className={classes.labels}>
-                    <Chip className={classes.label} label={"进行中"}/>
-                    <Chip className={classes.label} label={"缺翻译"}/>
-                    <Chip className={classes.label} label={"停滞"}/>
+                    {typeof manga.tags === "object" && manga.tags.map((tag) =>
+                        (<Chip className={classes.label} label={tag}/>))}
                 </Box>
                 <CardContent className={classes.content}>
                     <div className={classes.details}>
                         <Typography gutterBottom variant="h5" component="h2">
-                            {"食物语"}
+                            {manga.name}
                         </Typography>
                     </div>
                 </CardContent>

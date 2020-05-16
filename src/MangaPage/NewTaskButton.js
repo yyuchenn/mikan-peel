@@ -23,8 +23,6 @@ const useStyles = makeStyles((theme) => ({
 export default function NewTaskButton(props) {
     const classes = useStyles();
 
-    const {} = props;
-
     const [open, setOpen] = React.useState(false);
     const [type, setType] = React.useState(0);
 

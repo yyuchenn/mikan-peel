@@ -7,11 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import Collapse from "@material-ui/core/Collapse";
-import Button from "@material-ui/core/Button";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ChapterStepper from "./ChapterStepper/ChapterStepper";
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import EditMangaButton from "./EditMangaButton";
 
 const useStyles = makeStyles((theme) => ({

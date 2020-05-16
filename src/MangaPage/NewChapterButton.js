@@ -1,5 +1,4 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,18 +13,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 
 
-
-const useStyles = makeStyles((theme) => ({
-    coverInputBox: {
-        display: "none"
-    }
-}));
-
 export default function NewChapterButton(props) {
-    const classes = useStyles();
-
-    const {chapter} = props;
-
     const [open, setOpen] = React.useState(false);
     const [route, setRoute] = React.useState({no1: false, no3: false, no5: false, empty: false});
 

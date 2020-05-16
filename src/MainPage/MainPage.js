@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
-import MangaCard from "./MangaCard";
 import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -12,6 +11,9 @@ import clsx from "clsx";
 import Collapse from "@material-ui/core/Collapse";
 import NewMangaButton from "./NewMangaButton";
 import FilterBox from "./FilterBox";
+
+import { useSelector } from "react-redux";
+import MangaCardList from "./MangaCardList";
 
 const useStyles = makeStyles((theme) => ({
     titleArea: {
@@ -35,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MainPage(props) {
     const classes = useStyles();
+    const privilege = useSelector(state => state.user.privilege);
     const [expanded, setExpanded] = React.useState(false);
     const [cherry, setCherry] = React.useState(true);
 
@@ -73,7 +76,7 @@ export default function MainPage(props) {
                     <FilterBox/>
                 </Box>
                 <Box display={"flex"} justifyContent="flex-end">
-                    <NewMangaButton/>
+                    {privilege >= 2 && <NewMangaButton/>}
                     <FormControlLabel
                         checked={cherry}
                         onChange={onChangeCherry}
@@ -85,15 +88,7 @@ export default function MainPage(props) {
                 </Box>
             </Collapse>
 
-            <Box display={"flex"} flexWrap={"wrap"}
-                 justifyContent={"center"} alignItems={"center"}>
-                <MangaCard/>
-                <MangaCard/>
-                <MangaCard/>
-                <MangaCard/>
-                <MangaCard/>
-                <MangaCard/>
-            </Box>
+            <MangaCardList/>
         </Container>
     );
 }
