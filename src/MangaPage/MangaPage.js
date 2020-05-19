@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -6,11 +6,18 @@ import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {useParams} from "react-router-dom";
 
 import cover from '../temp/cover.jpeg';
 import NewChapterButton from "./NewChapterButton";
 import ChapterList from "./ChapterList/ChapterList";
 import Metadata from "./Metadata";
+import axios from "axios";
+import {API_MANGA} from "../constant";
+import {setSnackbar} from "../controller/site";
+import {useDispatch} from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
     titleArea: {
@@ -26,13 +33,32 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MangaPage(props) {
     const classes = useStyles();
+    const {mid} = useParams();
+    const dispatch = useDispatch();
+
+    const [manga, setManga] = useState({});
+
+    React.useEffect(  () => {
+        axios.get(API_MANGA + "/" + mid, {
+            withCredentials: true,
+            validateStatus: status => status === 200
+        })
+            .then(res => res.data)
+            .then(res => {
+                    setManga(res);
+                }
+            ).catch(err => {
+            dispatch(setSnackbar("获取漫画信息失败", "error"));
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Container maxWidth={"lg"}>
             <Box display={"flex"} alignItems={"flex-end"} className={classes.titleArea}>
                 <Box flexGrow={1}>
                     <Typography variant="h5">汉化工房</Typography>
-                    <Typography variant="h2">海色进行曲</Typography>
+                    <Typography variant="h2">{manga.name || <CircularProgress/>}</Typography>
                 </Box>
                 <Box><NewChapterButton/></Box>
             </Box>
@@ -43,7 +69,7 @@ export default function MangaPage(props) {
                             <CardMedia
                                 component={"img"}
                                 image={cover}
-                                title={"食物语"}
+                                title={manga.name || <CircularProgress/>}
                             />
                         </Card>
                         <Metadata/>

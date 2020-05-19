@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 import MangaCard from "./MangaCard";
 import axios from "axios";
 import {setSnackbar} from "../controller/site";
-import {API_BASE} from "../constant";
+import {API_MANGA} from "../constant";
 import {useDispatch} from "react-redux";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -14,13 +14,13 @@ export default function MangaCardList(props) {
     const dispatch = useDispatch();
 
     React.useEffect(  () => {
-         axios.get(API_BASE + "/mangas", {
+         axios.get(API_MANGA, {
             withCredentials: true,
             validateStatus: status => status === 200
         })
             .then(res => res.data)
             .then(res => {
-                typeof res.mangas === "object" && setMangas(res.mangas);
+                typeof res.manga === "object" && setMangas(res.manga);
                 }
             ).catch(err => {
                 dispatch(setSnackbar("获取漫画列表失败", "error"));
