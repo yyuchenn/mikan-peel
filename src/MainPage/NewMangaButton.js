@@ -7,6 +7,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Box from "@material-ui/core/Box";
+import UserAutocomplete from "../Component/UserAutocomplete/UserAutocomplete";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,21 +18,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NewMangaButton() {
-    const classes = useStyles();
-
     const [open, setOpen] = React.useState(false);
-    const [fileName, setFileName] = React.useState("");
+
+    React.useEffect(() => {
+
+    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
+        const script = document.createElement("script");
+        script.src = "https://imgchr.com/sdk/pup.js";
+        script.setAttribute("data-url", "https://imgchr.com/upload");
+        script.setAttribute("data-auto-insert", "direct-links");
+        script.setAttribute("data-mode", "manual");
+        script.async = true;
+        document.head.appendChild(script);
     };
 
     const handleClose = () => {
         setOpen(false);
-    };
-
-    const uploadOnChange = (event) => {
-        setFileName(event.target.files[0].name);
     };
 
     return (
@@ -57,19 +63,21 @@ export default function NewMangaButton() {
                         type="string"
                         fullWidth
                     />
-                    <input
-                        accept="image/*"
-                        className={classes.coverInputBox}
-                        id="contained-button-file"
-                        type="file"
-                        onChange={uploadOnChange}
-                    />
-                    <label htmlFor="contained-button-file">
-                        <Button variant="contained" color="secondary" component="span">
-                            上传封面
-                        </Button>
-                    </label>
-                    <DialogContentText>{fileName}</DialogContentText>
+                    <UserAutocomplete label="制作人" id="producer"/>
+                    <Box display="flex" alignItems="flex-end">
+                        <Box flexGrow={1}>
+                            <TextField
+                                margin="dense"
+                                id="cover"
+                                label="封面URL"
+                                type="string"
+                                fullWidth
+                            />
+                        </Box>
+                        <Box>
+                            <Button data-chevereto-pup-trigger data-target="#cover"
+                                    ariant="contained" color="secondary" component="span">图床上传</Button></Box>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

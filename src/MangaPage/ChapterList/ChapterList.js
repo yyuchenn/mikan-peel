@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import ChapterListItem from "./ChapterListItem";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import axios from "axios";
+import {api_chapter} from "../../constant";
+import {setSnackbar} from "../../controller/site";
+import {useDispatch} from "react-redux";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,26 +16,23 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function getChapterList() {
-    return [{
-        name: "第1话", id: "1",
-        tasks: [{name: "图源", type: 1, status: 1, id: "1", nominee: "z酱"},
-            {name: "翻译", type: 2, status: 2, id: "2", nominee: "y酱"},
-            {name: "校对", type: 3, status: 3, id: "3"},
-            {name: "嵌字", type: 4, status: 0, id: "5"},
-            {name: "审核", type: 5, status: 0, id: "9", nominee: "x酱"},
-            {name: "发布", type: 6, status: 0, id: "10"}]
-    }];
-}
 
-export default function ChapterList() {
+export default function ChapterList(props) {
     const classes = useStyles();
+    const {mid, adminAuth} = props;
     const [value, setValue] = React.useState(0);
-
-    const chapters = getChapterList();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    const listName = (value) => {
+        console.log(value);
+        switch (value) {
+            case 0: return "ongoing";
+            case 1: return "finished";
+            default: return "ongoing";
+        }
     };
 
     return (
@@ -41,16 +43,35 @@ export default function ChapterList() {
                     <Tab label="已完成"/>
                 </Tabs>
             </AppBar>
-            <div hidden={value !== 0}>
-                {chapters.map((chapter, index) => (
-                    <ChapterListItem chapter={chapter}/>
-                ))}
-            </div>
-            <div hidden={value !== 1}>
-                {chapters.map((chapter, index) => (
-                    <ChapterListItem chapter={chapter}/>
-                ))}
-            </div>
+            <SubChapterList mid={mid} listName={listName(value)} adminAuth={adminAuth}/>
+
         </div>
     );
+}
+
+export function SubChapterList(props) {
+    const {mid, listName, adminAuth} = props;
+    const [loading, setLoading] = useState(true);
+    const [chapters, setChapters] = useState([]);
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        setLoading(true);
+        setChapters([]);
+        axios.get(api_chapter(mid, listName), {
+            withCredentials: true,
+            validateStatus: status => status === 200
+        })
+            .then(res => res.data)
+            .then(res => {
+                    typeof res[listName] === "object" && setChapters(res[listName]);
+                }
+            ).catch(err => {
+            dispatch(setSnackbar("拉取列表失败, 请刷新重试", "error"));
+        }).finally(() => setLoading(false));
+    },[listName]);
+
+    return <>{loading ? <LinearProgress/> : chapters.map((chapter) =>
+            (<ChapterListItem chapter={chapter} adminAuth={adminAuth}/>)
+        )}</>;
 }

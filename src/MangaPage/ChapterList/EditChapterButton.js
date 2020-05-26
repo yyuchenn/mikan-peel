@@ -6,10 +6,17 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Box from "@material-ui/core/Box";
 
-import { ReactSortable } from "react-sortablejs";
-import TaskChip from "../TaskChip";
+import {ReactSortable} from "react-sortablejs";
+import {taskIcon} from "../TaskChip";
 import NewTaskButton from "../NewTaskButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import DragHandleIcon from '@material-ui/icons/DragHandle';
 
 
 export default function EditChapterButton(props) {
@@ -52,13 +59,28 @@ export default function EditChapterButton(props) {
                         defaultValue={chapter["id"]}
                         fullWidth
                     />
-                    <DialogContentText>任务</DialogContentText>
-                    <NewTaskButton/>
-                    <ReactSortable list={tasksList} setList={setTasksList} animation={150}>
-                        {tasksList.map(task => (
-                            <TaskChip label={task}/>
-                        ))}
-                    </ReactSortable>
+
+
+                    <List subheader={
+                        <ListSubheader component="div">
+                            <Box display="flex" flexDirection="row" alignItems="flex-end">
+                                <Box flexGrow={1}><DialogContentText>任务</DialogContentText></Box>
+                                <Box><NewTaskButton/></Box>
+                            </Box>
+                        </ListSubheader>
+                    }>
+                        <ReactSortable list={tasksList} setList={setTasksList} animation={150}>
+                            {tasksList.map(task => (
+                                <ListItem>
+                                    <ListItemIcon>
+                                        {taskIcon(task["type"])}
+                                    </ListItemIcon>
+                                    <ListItemText primary={task["name"]}/>
+                                    <DragHandleIcon/>
+                                </ListItem>
+                            ))}
+                        </ReactSortable>
+                    </List>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

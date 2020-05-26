@@ -1,5 +1,6 @@
 export const FILL_USER = 'FILL_USER';
 export const CLEAN_USER = 'CLEAN_USER';
+export const SET_LOGGING = 'SET_LOGGING';
 
 const user = (state = {privilege: 0}, action) => {
     switch (action.type) {
@@ -15,6 +16,10 @@ const user = (state = {privilege: 0}, action) => {
             return {
                 privilege: 0
             };
+        case 'SET_LOGGING':
+            return Object.assign({}, state, {
+                logging: action.logging
+            });
         default:
             return state
     }

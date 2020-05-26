@@ -12,8 +12,9 @@ import Collapse from "@material-ui/core/Collapse";
 import NewMangaButton from "./NewMangaButton";
 import FilterBox from "./FilterBox";
 
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import MangaCardList from "./MangaCardList";
+import {setShowCherry} from "../controller/site";
 
 const useStyles = makeStyles((theme) => ({
     titleArea: {
@@ -39,14 +40,15 @@ export default function MainPage(props) {
     const classes = useStyles();
     const privilege = useSelector(state => state.user.privilege);
     const [expanded, setExpanded] = React.useState(false);
-    const [cherry, setCherry] = React.useState(true);
+    const showCherry = useSelector(state => state.site.showCherry);
+    const dispatch = useDispatch();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     const onChangeCherry = (event) => {
-        setCherry(event.target.checked);
+        dispatch(setShowCherry(event.target.checked));
     };
 
     return (
@@ -55,6 +57,7 @@ export default function MainPage(props) {
                 <Box flexGrow={1}>
                     <Typography variant="h5">汉化工房</Typography>
                     <Typography variant="h1">九九组</Typography>
+
                 </Box>
                 <Box alignSelf={"flex-end"}>
                     <IconButton
@@ -78,12 +81,12 @@ export default function MainPage(props) {
                 <Box display={"flex"} justifyContent="flex-end">
                     {privilege >= 2 && <NewMangaButton/>}
                     <FormControlLabel
-                        checked={cherry}
+                        checked={showCherry}
                         onChange={onChangeCherry}
-                        value={cherry}
+                        value={showCherry}
                         size={"small"}
                         control={<Switch color="primary"/>}
-                        label={cherry ? "显示夏蜜樱桃" : "隐藏夏蜜樱桃"}
+                        label={showCherry ? "显示夏蜜樱桃" : "隐藏夏蜜樱桃"}
                         labelPlacement="start"/>
                 </Box>
             </Collapse>

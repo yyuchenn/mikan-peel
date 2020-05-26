@@ -29,7 +29,7 @@ export default function ChapterListItem(props) {
 
 
     const handleStep = (label) => () => {
-        window.location.href = "/manga/" + mid + "/" + label["id"];
+        window.location.href += "/" + mid + "/" + label["id"];
     };
 
     return (

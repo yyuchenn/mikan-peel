@@ -8,6 +8,7 @@ import {desktopWidth} from "./Sidebar";
 
 import { useDispatch } from "react-redux";
 import {verifySession} from "../controller/user";
+import {initSite} from "../controller/site";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,6 +41,7 @@ function Border(props) {
 
     React.useEffect( () => {
         async function fetchData() {
+            dispatch(initSite());
             await dispatch(verifySession());
         }
         fetchData();

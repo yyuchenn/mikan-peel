@@ -5,9 +5,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import UserAutocomplete from "../Component/UserAutocomplete/UserAutocomplete";
+import {useSelector} from "react-redux";
 
 
 export default function EditMangaButton(props) {
+    const {manga} = props;
+    const privilege = useSelector(state => state.user.privilege);
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -31,7 +35,7 @@ export default function EditMangaButton(props) {
                         id="name"
                         label="漫画标题"
                         type="string"
-                        defaultValue={""}
+                        defaultValue={manga.name}
                         fullWidth
                     />
                     <TextField
@@ -39,12 +43,14 @@ export default function EditMangaButton(props) {
                         id="id"
                         label="漫画ID"
                         type="string"
-                        defaultValue={""}
+                        defaultValue={manga.id}
                         fullWidth
                     />
+                    <UserAutocomplete label="制作人" defaultValue={manga.producer} disabled={privilege < 2}/>
                     <TextField
                         label="备注信息"
                         id={"ps"}
+                        defaultValue={manga.ps}
                         multiline
                         rowsMax={5}
                         fullWidth

@@ -10,6 +10,7 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import EditMangaButton from "./EditMangaButton";
+import UserChip from "../Component/UserChip/UserChip";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,8 +29,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Metadata() {
+export default function Metadata(props) {
     const classes = useStyles();
+    const {manga, adminAuth} = props;
     const [expanded, setExpanded] = React.useState(true);
 
     const handleExpandClick = () => {
@@ -57,11 +59,19 @@ export default function Metadata() {
         </Box>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <ExpansionPanelDetails className={classes.details}>
-                    <Typography>开坑日期：2019年4月</Typography>
+                    <Box flexDirection={"vertical"}>
+                    <Box>
+                    <Typography>制作人: <UserChip user={manga.producer}/></Typography>
+                    </Box>
+                    <Box>
+                    <Typography>备注: </Typography>
+                    <Typography paragraph>{manga.ps}</Typography>
+                    </Box>
+                    </Box>
                 </ExpansionPanelDetails>
                 <Divider />
                 <ExpansionPanelActions>
-                    <EditMangaButton/>
+                    {adminAuth && <EditMangaButton manga={manga}/>}
                 </ExpansionPanelActions>
             </Collapse>
         </Box>

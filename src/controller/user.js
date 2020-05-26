@@ -1,11 +1,11 @@
 import axios from "axios";
-import {FILL_USER} from "../reducers/user";
-import {SET_BUSY} from "../reducers/site"
-import {setSnackbar} from "./site";
+import {FILL_USER, SET_LOGGING} from "../reducers/user";
+import {setBusy, setSnackbar} from "./site";
 import {API_BASE} from "../constant";
 
 export function auth(id, pass) {
     return dispatch => {
+        dispatch(setLogging(true));
         axios.post(API_BASE + "/auth", {
             id: id,
             pass: pass
@@ -13,13 +13,14 @@ export function auth(id, pass) {
             .then(res => {
                 console.log(res);
                 }
-            );
+            ).finally(() => dispatch(setLogging(false)));
     };
 }
 
 
 export function verifySession() {
     return async dispatch => {
+        dispatch(setLogging(true));
         await axios.get(API_BASE + "/session", {
             withCredentials: true,
             validateStatus: status => status === 200
@@ -32,7 +33,17 @@ export function verifySession() {
             ).catch(err => {
                 console.log("未登录");
             }).finally(() => {
-                dispatch(Object.assign({type: SET_BUSY}, {isBusy: false}));
+                dispatch(setBusy(false));
+                dispatch(setLogging(false));
             });
     };
+}
+
+export function setLogging(logging) {
+    return dispatch => {
+        dispatch({
+            type: SET_LOGGING,
+            logging: logging
+        })
+    }
 }

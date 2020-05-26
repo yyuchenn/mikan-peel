@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import {taskIcon} from "./TaskChip";
 
 
 
@@ -53,10 +54,13 @@ export default function NewTaskButton(props) {
                             value={type}
                             onChange={handleTypeChange}
                         >
-                            <MenuItem value={0}>其他</MenuItem>
-                            <MenuItem value={1}>图源</MenuItem>
-                            <MenuItem value={2}>翻译</MenuItem>
-                            <MenuItem value={3}>校对</MenuItem>
+                            <MenuItem value={0}>{taskIcon(0)}其他</MenuItem>
+                            <MenuItem value={1}>{taskIcon(1)}图源</MenuItem>
+                            <MenuItem value={2}>{taskIcon(2)}翻译</MenuItem>
+                            <MenuItem value={3}>{taskIcon(3)}校对</MenuItem>
+                            <MenuItem value={4}>{taskIcon(4)}嵌字</MenuItem>
+                            <MenuItem value={5}>{taskIcon(5)}审核</MenuItem>
+                            <MenuItem value={6}>{taskIcon(6)}发布</MenuItem>
                         </Select>
                         <FormHelperText>任务类型</FormHelperText>
                     </FormControl>

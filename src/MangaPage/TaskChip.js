@@ -11,7 +11,17 @@ import Palette from 'mdi-material-ui/Palette'
 export default function TaskChip(props) {
     const {label, clickable} = props;
 
+    return (
+        <div>
+            <Chip variant={label["nominee"] === undefined ? "outlined" : "default"} clickable={clickable} icon={taskIcon(label["type"])}
+                  color={label["status"] === 1 || label["status"] === 2 ? "primary" :
+                      label["status"] === 3 ? "secondary" : ""} size={"small"}
+                  label={label["name"]}/>
+        </div>
+    );
+}
 
+export function taskIcon(n) {
     const icons = {
         0: <Briefcase/>,
         1: <ImageMultiple/>,
@@ -21,13 +31,5 @@ export default function TaskChip(props) {
         5: <Gavel/>,
         6: <Rocket/>
     };
-
-    return (
-        <div>
-            <Chip variant={label["nominee"] === undefined ? "outlined" : "default"} clickable={clickable} icon={icons[label["type"]]}
-                  color={label["status"] === 1 || label["status"] === 2 ? "primary" :
-                      label["status"] === 3 ? "secondary" : ""} size={"small"}
-                  label={label["name"]}/>
-        </div>
-    );
+    return icons[n];
 }

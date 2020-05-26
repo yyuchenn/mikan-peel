@@ -12,6 +12,7 @@ import {Badge, Popover} from "@material-ui/core";
 import {Link} from "react-router-dom";
 
 import {useSelector} from "react-redux";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
     popover: {
         pointerEvents: 'none',
     },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
 }));
 
 export default function Topbar(props) {
@@ -34,7 +42,8 @@ export default function Topbar(props) {
     const classes = useStyles();
 
     const privilege = useSelector(state => state.user.privilege);
-    const isBusy = useSelector(state => state.site.isBusy);
+    const isBusy = useSelector(state => state.site.busy);
+    const logging = useSelector(state => state.user.logging);
     const number_of_notification = useSelector(state => state.user.number_of_notification);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -64,9 +73,7 @@ export default function Topbar(props) {
                         >
                             <MenuIcon/>
                         </IconButton>
-                        {isBusy && (<CircularProgress color="secondary" />)}
                     </Box>
-
                     <Box>
                         {privilege > 0 && (<IconButton onMouseEnter={(e) => handlePopoverOpen(e, "通知")}
                                     onMouseLeave={handlePopoverClose} aria-label={"notification"}>
@@ -78,11 +85,14 @@ export default function Topbar(props) {
                                     onMouseLeave={handlePopoverClose} aria-label={"account"}
                                     component={Link} to={"/me"}>
                             <AccountCircleIcon fontSize={"large"}/>
+                            {logging && <CircularProgress size={24} className={classes.buttonProgress}/>}
                         </IconButton>
+
                     </Box>
                 </Box>
             </div>
         </Toolbar>
+        {isBusy ? <LinearProgress/> : <></>}
         <Popover
             className={classes.popover}
             classes={{
