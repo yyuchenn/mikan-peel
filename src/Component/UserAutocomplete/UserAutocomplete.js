@@ -24,7 +24,7 @@ export default function UserAutocomplete(props) {
             })
                 .then(res => res.data)
                 .then(res => {
-                        typeof res.user === "object" && setUserList(res.user);
+                        typeof res.users === "object" && setUserList(res.users);
                     }
                 ).catch(err => {
                 dispatch(setSnackbar("拉取用户列表失败，请重试", "error"));
@@ -36,11 +36,11 @@ export default function UserAutocomplete(props) {
         <Autocomplete open={open} onOpen={() => setOpen(true)} onClose={() => setOpen(false)}
                       loading={loading} loadingText="加载中..." noOptionsText="没有这个人" options={userList}
                       id={id} defaultValue={defaultValue} disabled={disabled}
-                      getOptionLabel={(option) => option.id}
-                      renderOption={(option) => option.name + "@" + option.id}
-                      getOptionSelected={(option, value) => option.id === value.id}
+                      getOptionLabel={(option) => option.uid}
+                      renderOption={(option) => option.nickname + "@" + option.uid}
+                      getOptionSelected={(option, value) => option.uid === value.uid}
                       filterOptions={(options, { inputValue }) =>
-                          matchSorter(options, inputValue, {keys: ["name", "id"]})}
+                          matchSorter(options, inputValue, {keys: ["nickname", "uid"]})}
                       renderInput={(params) => (
                           <TextField
                               {...params}

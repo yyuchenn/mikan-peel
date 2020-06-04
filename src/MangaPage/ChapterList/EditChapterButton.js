@@ -9,7 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Box from "@material-ui/core/Box";
 
 import {ReactSortable} from "react-sortablejs";
-import {taskIcon} from "../TaskChip";
 import NewTaskButton from "../NewTaskButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -17,6 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import DragHandleIcon from '@material-ui/icons/DragHandle';
+import {taskIcon} from "../../Component/TaskChip/icons";
 
 
 export default function EditChapterButton(props) {
@@ -70,8 +70,8 @@ export default function EditChapterButton(props) {
                         </ListSubheader>
                     }>
                         <ReactSortable list={tasksList} setList={setTasksList} animation={150}>
-                            {tasksList.map(task => (
-                                <ListItem>
+                            {tasksList.map((task, order) => (
+                                <ListItem key={order}>
                                     <ListItemIcon>
                                         {taskIcon(task["type"])}
                                     </ListItemIcon>

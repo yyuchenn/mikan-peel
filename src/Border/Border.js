@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import {desktopWidth} from "./Sidebar";
 
 import { useDispatch } from "react-redux";
-import {verifySession} from "../controller/user";
+import {loginWithToken} from "../controller/user";
 import {initSite} from "../controller/site";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +42,7 @@ function Border(props) {
     React.useEffect( () => {
         async function fetchData() {
             dispatch(initSite());
-            await dispatch(verifySession());
+            await dispatch(loginWithToken());
         }
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps

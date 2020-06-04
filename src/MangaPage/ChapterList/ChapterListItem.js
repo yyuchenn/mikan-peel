@@ -10,7 +10,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
+import Box from "@material-ui/core/Box";
 import EditChapterButton from "./EditChapterButton";
+import TaskChip from "../../Component/TaskChip/TaskChip";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,7 +41,7 @@ export default function ChapterListItem(props) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
-    const {chapter, adminAuth} = props;
+    const {chapter, adminAuth, mid} = props;
 
     return (
         <div className={classes.root}>
@@ -52,12 +54,14 @@ export default function ChapterListItem(props) {
                     <div className={classes.title}>
                         <Typography className={classes.heading} noWrap>{chapter["name"]}</Typography>
                     </div>
-                    <div className={classes.summary}>
-                        <Typography className={classes.secondaryHeading} noWrap>翻译</Typography>
-                    </div>
+                    {chapter["tasks"].map((task, key) => {
+                        return task["status"] === 0 && <TaskChip label={task}/>
+                    })}
+                    <Typography noWrap className={classes.secondaryHeading}>{chapter["ps"]}</Typography>
+
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={classes.details}>
-                    <ChapterStepper vertical={!isDesktop} chapter={chapter}/>
+                    <ChapterStepper vertical={!isDesktop} chapter={chapter} mid={mid}/>
                 </ExpansionPanelDetails>
                 {adminAuth && <>
                     <Divider/>

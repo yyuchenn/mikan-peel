@@ -4,8 +4,8 @@ import Stepper from "@material-ui/core/Stepper";
 import StepButton from "@material-ui/core/StepButton";
 import StepLabel from "@material-ui/core/StepLabel";
 import Step from "@material-ui/core/Step";
-
-import TaskChip from "../TaskChip";
+import TaskChip from "../../Component/TaskChip/TaskChip";
+import {Link} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,24 +22,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChapterListItem(props) {
     const classes = useStyles();
-    const {vertical, chapter} = props;
+    const {vertical, chapter, mid} = props;
 
     const tasks = chapter["tasks"];
-    const mid = chapter["id"];
-
-
-    const handleStep = (label) => () => {
-        window.location.href += "/" + mid + "/" + label["id"];
-    };
+    const cid = chapter["id"];
 
     return (
         <div className={classes.root}>
             <Stepper alternativeLabel={!vertical} nonLinear activeStep={-1} orientation={vertical ? "vertical" : "horizontal"}>
                 {tasks.map((label, index) => (
                     <Step key={label["name"]}>
-                        <StepButton onClick={handleStep(label)} completed={label["status"] === 1}>
+                        <StepButton component={Link} to={"/manga/" + mid + "/" + cid + "/" + label["id"]}
+                                    completed={label["status"] === 1}>
                             <StepLabel>
-                                <TaskChip label={label} clickable/>
+                                <TaskChip label={label}/>
                             </StepLabel>
                         </StepButton>
                     </Step>

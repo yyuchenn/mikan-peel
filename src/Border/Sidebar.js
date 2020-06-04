@@ -13,6 +13,7 @@ import FolderSharedIcon from '@material-ui/icons/FolderShared';
 import PeopleIcon from '@material-ui/icons/People';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import ExtensionIcon from '@material-ui/icons/Extension';
+import {useSelector} from "react-redux";
 
 export const desktopWidth = 100;
 const mobileWidth = 150;
@@ -37,6 +38,8 @@ export default function Sidebar(props) {
     const {sidebarToggle, openStatus} = props;
     const classes = useStyle();
 
+    const privilege = useSelector(state => state.user.privilege);
+
     const drawer = (
         <span style={{height: "100%"}}>
             <Box style={{height: "100%"}} display="flex" flexDirection={"column"}
@@ -52,7 +55,7 @@ export default function Sidebar(props) {
                         <SidebarItem to={"/tasks"} name={"任务"} sidebarToggle={sidebarToggle}>
                             <DateRangeIcon/>
                         </SidebarItem>
-                        <SidebarItem name={"文件"} sidebarToggle={sidebarToggle}>
+                        <SidebarItem to={"/cloud"} name={"文件"} sidebarToggle={sidebarToggle}>
                             <FolderSharedIcon/>
                         </SidebarItem>
                         <SidebarItem name={"成员"} sidebarToggle={sidebarToggle}>
@@ -63,6 +66,7 @@ export default function Sidebar(props) {
                         </SidebarItem>
                     </List>
                 </Box>
+                {privilege > 2 &&
                 <Box>
                     <Divider/>
                     <List>
@@ -71,6 +75,7 @@ export default function Sidebar(props) {
                         </SidebarItem>
                     </List>
                 </Box>
+                }
             </Box>
         </span>
 
@@ -79,7 +84,6 @@ export default function Sidebar(props) {
     return (<nav className={classes.drawer}>
         <Hidden mdUp implementation="css">
             <Drawer
-
                 variant="temporary"
                 anchor="left"
                 open={openStatus}

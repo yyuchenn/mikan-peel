@@ -20,7 +20,7 @@ export default function MangaCardList(props) {
         })
             .then(res => res.data)
             .then(res => {
-                typeof res.manga === "object" && setMangas(res.manga);
+                typeof res.mangas === "object" && setMangas(res.mangas);
                 }
             ).catch(err => {
                 dispatch(setSnackbar("获取漫画列表失败", "error"));
@@ -33,7 +33,7 @@ export default function MangaCardList(props) {
                  justifyContent={"center"} alignItems={"center"}>
                 {mangas.map((manga) => {
                     if (!manga.cherry || showCherry)
-                        return (<MangaCard manga={manga}/>);
+                        return (<MangaCard manga={manga} key={manga.id}/>);
                 })}
             </Box>
     );

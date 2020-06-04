@@ -9,7 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Chip from "@material-ui/core/Chip";
 import {useParams} from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
-import cover from "../temp/cover.jpeg";
+import cover from "../cover.jpeg";
 
 import NewChapterButton from "./NewChapterButton";
 import ChapterList from "./ChapterList/ChapterList";
@@ -19,6 +19,8 @@ import {API_MANGA} from "../constant";
 import {setBusy, setSnackbar} from "../controller/site";
 import {useDispatch, useSelector} from "react-redux";
 import TagChip from "../Component/TagChip/TagChip";
+import {setTitle} from "../controller/utils";
+import AddTagChip from "../Component/TagChip/AddTagChip";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +57,7 @@ export default function MangaPage(props) {
             .then(res => res.data)
             .then(res => {
                     setManga(res);
+                    setTitle(res.name)
                 }
             ).catch(err => {
             dispatch(setSnackbar("获取漫画信息失败", "error"));
@@ -63,7 +66,7 @@ export default function MangaPage(props) {
     }, []);
 
     React.useEffect(() => {
-        setAdminAuth(privilege >= 2 || (typeof manga.producer === "object" && manga.producer.id === uid));
+        setAdminAuth(privilege >= 2 || (typeof manga.producer === "object" && manga.producer.uid === uid));
     }, [privilege, uid, manga]);
 
     return (
@@ -71,18 +74,19 @@ export default function MangaPage(props) {
             <Box display={"flex"} alignItems={"flex-end"} className={classes.titleArea}>
                 <Box flexGrow={1}>
                     <Typography variant="h5">
-                        {(typeof manga.tags === "object" && manga.tags.map((tag) => {
-                            return <TagChip size="small" tag={tag} className={classes.label} onDelete={adminAuth && handleDeleteTag(tag)}/>;
+                        {(typeof manga.tags === "object" && manga.tags.map((tag, key) => {
+                            return <TagChip key={key} size="small" tag={tag} className={classes.label}
+                                            onDelete={adminAuth && handleDeleteTag(tag)}/>;
                         })) || <Skeleton/>}
                         {typeof manga.tags === "object" && adminAuth &&
-                        <Chip label={"+"} size="small" className={classes.label}/>}
+                        <AddTagChip className={classes.label}/>}
                     </Typography>
                     <Typography variant="h2">{manga.name || <Skeleton/>}</Typography>
                 </Box>
                 <Box>{adminAuth && <NewChapterButton/>}</Box>
             </Box>
-            <Grid container>
-                <Grid spacing={2} xs={12} md={3}>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={3}>
                     <Box display={"flex"} p={1} justifyContent="center" flexDirection={"column"} alignItems="center">
                         <Card className={classes.coverCard}>
                             <CardMedia
@@ -94,7 +98,7 @@ export default function MangaPage(props) {
                         <Metadata manga={manga} adminAuth={adminAuth}/>
                     </Box>
                 </Grid>
-                <Grid xs={12} md={9}>
+                <Grid item xs={12} md={9}>
                     <ChapterList mid={mid} adminAuth={adminAuth}/>
                 </Grid>
             </Grid>

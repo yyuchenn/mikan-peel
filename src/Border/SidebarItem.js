@@ -22,11 +22,6 @@ const useStyles = makeStyles((theme) => ({
             paddingTop: 0,
             paddingBottom: 0
         },
-    },
-    icon: {
-        [theme.breakpoints.up("md")]: {
-            fontSize: 83,
-        },
     }
 }));
 
@@ -39,7 +34,7 @@ export default function SidebarItem(props) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
-    const iconDesktop = React.cloneElement(props.children, {className: classes.icon});
+    const iconDesktop = React.cloneElement(props.children, {style: {fontSize: 83}});
 
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);

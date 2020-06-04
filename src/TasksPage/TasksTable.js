@@ -52,8 +52,6 @@ export default function TasksTable(props) {
         }} data={[
             {manga_name: "街角魔族", status: "进行中"},
             {manga_name: "海色进行曲", status: "已完结"}
-        ]} components={{
-            Toolbar: props => (<div></div>)
-        }}/>
+        ]} />
         );
 }

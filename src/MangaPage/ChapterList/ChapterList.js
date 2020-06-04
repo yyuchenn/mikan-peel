@@ -5,7 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import axios from "axios";
-import {api_chapter} from "../../constant";
+import {api_chapter, API_MANGA} from "../../constant";
 import {setSnackbar} from "../../controller/site";
 import {useDispatch} from "react-redux";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -26,15 +26,6 @@ export default function ChapterList(props) {
         setValue(newValue);
     };
 
-    const listName = (value) => {
-        console.log(value);
-        switch (value) {
-            case 0: return "ongoing";
-            case 1: return "finished";
-            default: return "ongoing";
-        }
-    };
-
     return (
         <div className={classes.root}>
             <AppBar position="static" color={"transparent"}>
@@ -43,7 +34,7 @@ export default function ChapterList(props) {
                     <Tab label="已完成"/>
                 </Tabs>
             </AppBar>
-            <SubChapterList mid={mid} listName={listName(value)} adminAuth={adminAuth}/>
+            <SubChapterList mid={mid} listName={value} adminAuth={adminAuth}/>
 
         </div>
     );
@@ -58,13 +49,16 @@ export function SubChapterList(props) {
     React.useEffect(() => {
         setLoading(true);
         setChapters([]);
-        axios.get(api_chapter(mid, listName), {
+        axios.get(API_MANGA + "/" + mid + "/chapter", {
+            params: {
+                query_status: listName
+            },
             withCredentials: true,
             validateStatus: status => status === 200
         })
             .then(res => res.data)
             .then(res => {
-                    typeof res[listName] === "object" && setChapters(res[listName]);
+                    typeof res["chapters"] === "object" && setChapters(res["chapters"]);
                 }
             ).catch(err => {
             dispatch(setSnackbar("拉取列表失败, 请刷新重试", "error"));
@@ -72,6 +66,6 @@ export function SubChapterList(props) {
     },[listName]);
 
     return <>{loading ? <LinearProgress/> : chapters.map((chapter) =>
-            (<ChapterListItem chapter={chapter} adminAuth={adminAuth}/>)
+            (<ChapterListItem chapter={chapter} adminAuth={adminAuth} mid={mid} key={chapter.id}/>)
         )}</>;
 }

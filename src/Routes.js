@@ -13,6 +13,8 @@ import MangaPage from "./MangaPage/MangaPage";
 import PrivateRoute from "./PrivateRoute";
 import DashboardPage from "./DashboardPage/DashboardPage";
 import Snackbar from "./Snackbar";
+import OAuthPage from "./OAuthPage/OAuthPage";
+import CloudPage from "./CloudPage/CloudPage";
 
 export default function Routes() {
 
@@ -31,6 +33,12 @@ export default function Routes() {
                     </Route>
                     <PrivateRoute path={"/me"}>
                         <DashboardPage/>
+                    </PrivateRoute>
+                    <Route path={"/cloud"}>
+                        <CloudPage/>
+                    </Route>
+                    <PrivateRoute path={"/oauth2"}>
+                        <OAuthPage/>
                     </PrivateRoute>
                     <Route path={"/manga/:mid"} children={<MangaPage/>} />
                 </Switch>

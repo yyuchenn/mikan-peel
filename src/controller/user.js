@@ -1,28 +1,37 @@
 import axios from "axios";
+import qs from 'qs';
 import {FILL_USER, SET_LOGGING} from "../reducers/user";
 import {setBusy, setSnackbar} from "./site";
 import {API_BASE} from "../constant";
 
-export function auth(id, pass) {
+export function auth(id, pass, history, from) {
     return dispatch => {
-        dispatch(setLogging(true));
-        axios.post(API_BASE + "/auth", {
-            id: id,
-            pass: pass
-        }).then(res => res.data)
+        dispatch(setBusy(true));
+        axios.post(API_BASE + "/token", qs.stringify({
+            username: id,
+            password: pass
+        }), {
+                headers: tokenHeader(),
+                validateStatus: status => status === 200}
+            ).then(res => res.data)
             .then(res => {
-                console.log(res);
+                window.localStorage.setItem("access_token", res["access_token"]);
+                dispatch(loginWithToken());
+                history.replace(from);
                 }
-            ).finally(() => dispatch(setLogging(false)));
+            ).catch((e)=>{
+                dispatch(setSnackbar("登录失败", "error"));
+        }).finally(() => dispatch(setBusy(false)));
     };
 }
 
 
-export function verifySession() {
+export function loginWithToken() {
     return async dispatch => {
         dispatch(setLogging(true));
-        await axios.get(API_BASE + "/session", {
-            withCredentials: true,
+        dispatch(setBusy(true));
+        await axios.get(API_BASE + "/profile", {
+            headers: tokenHeader(),
             validateStatus: status => status === 200
         })
             .then(res => res.data)
@@ -38,6 +47,14 @@ export function verifySession() {
             });
     };
 }
+
+
+export function tokenHeader() {
+    let token = window.localStorage.getItem("access_token");
+    return { 'Authorization': 'Bearer ' + token ,
+        'content-type': 'application/x-www-form-urlencoded'};
+}
+
 
 export function setLogging(logging) {
     return dispatch => {

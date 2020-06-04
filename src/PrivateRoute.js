@@ -4,9 +4,9 @@ import {useSelector} from "react-redux";
 
 export default function PrivateRoute({ children, ...rest }) {
     const privilege = useSelector(state => state.user.privilege);
-    const isBusy = useSelector(state => state.site.busy);
+    const logging = useSelector(state => state.user.logging);
 
-    return (!isBusy ? (
+    return (!logging ? (
         <Route
             {...rest}
             render={({ location }) =>

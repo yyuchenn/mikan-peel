@@ -5,7 +5,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import cover from '../temp/cover.jpeg';
+import cover from '../cover.jpeg';
 import Box from "@material-ui/core/Box";
 import {Link} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -66,8 +66,8 @@ export default function MangaCard(props) {
                     title={manga.name}
                 />
                 <Box display={"flex"} flexDirection={"row-reverse"} flexWrap="wrap" className={classes.labels}>
-                    {typeof manga.tags === "object" && manga.tags.map((tag) =>
-                        (<TagChip className={classes.label} tag={tag} size="small"/>))}
+                    {typeof manga.tags === "object" && manga.tags.map((tag, key) =>
+                        (<TagChip className={classes.label} tag={tag} size="small" key={key}/>))}
                 </Box>
                 <CardContent className={classes.content}>
                     <div className={classes.details}>

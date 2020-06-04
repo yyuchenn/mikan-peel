@@ -4,12 +4,12 @@ import {tagColor, textColor} from "./colors";
 
 
 export default function TagChip(props) {
-    const {className, tag, onDelete, size} = props;
+    const {tag} = props;
 
     return (
-        <Chip className={className} size={size} style={{
+        <Chip style={{
             backgroundColor: tagColor(tag.color),
             color: textColor(tag.color)
-        }} label={tag.name} onDelete={onDelete}/>
+        }} label={tag.name} {...props}/>
     );
 }

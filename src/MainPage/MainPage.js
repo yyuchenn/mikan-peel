@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -10,11 +10,11 @@ import Switch from "@material-ui/core/Switch";
 import clsx from "clsx";
 import Collapse from "@material-ui/core/Collapse";
 import NewMangaButton from "./NewMangaButton";
-import FilterBox from "./FilterBox";
 
 import {useDispatch, useSelector} from "react-redux";
 import MangaCardList from "./MangaCardList";
 import {setShowCherry} from "../controller/site";
+import {setTitle} from "../controller/utils";
 
 const useStyles = makeStyles((theme) => ({
     titleArea: {
@@ -42,6 +42,8 @@ export default function MainPage(props) {
     const [expanded, setExpanded] = React.useState(false);
     const showCherry = useSelector(state => state.site.showCherry);
     const dispatch = useDispatch();
+
+    useEffect(() => setTitle(""), []);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -76,7 +78,6 @@ export default function MainPage(props) {
             <Collapse className={classes.filterArea} in={expanded} timeout="auto" unmountOnExit>
 
                 <Box flexGrow={1}>
-                    <FilterBox/>
                 </Box>
                 <Box display={"flex"} justifyContent="flex-end">
                     {privilege >= 2 && <NewMangaButton/>}

@@ -3,7 +3,7 @@ export const SET_SNACK_MSG = 'SET_SNACK_MSG';
 export const SET_BUSY = 'SET_BUSY';
 export const SET_SHOW_CHERRY = 'SET_SHOW_CHERRY';
 
-const site = (state = {broadcast : "", snackMsg : {message: ""}, busy : 1, showCherry : true}, action) => {
+const site = (state = {broadcast : "", snackMsg : {message: ""}, busy : 0, showCherry : true}, action) => {
     switch (action.type) {
         case 'SET_BROADCAST':
             return Object.assign({}, state, {

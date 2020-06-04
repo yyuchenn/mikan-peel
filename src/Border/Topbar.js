@@ -14,6 +14,7 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import AvatarIcon from "../Component/AvatarIcon/AvatarIcon";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -44,7 +45,9 @@ export default function Topbar(props) {
     const privilege = useSelector(state => state.user.privilege);
     const isBusy = useSelector(state => state.site.busy);
     const logging = useSelector(state => state.user.logging);
-    const number_of_notification = useSelector(state => state.user.number_of_notification);
+    const number_of_notification = useSelector(state => state.user.number_of_notifications);
+    const nickname = useSelector(state => state.user.nickname);
+    const avatar = useSelector(state => state.user.avatar);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorName, setAnchorName] = React.useState("");
@@ -84,7 +87,7 @@ export default function Topbar(props) {
                         <IconButton onMouseEnter={(e) => handlePopoverOpen(e, "我")}
                                     onMouseLeave={handlePopoverClose} aria-label={"account"}
                                     component={Link} to={"/me"}>
-                            <AccountCircleIcon fontSize={"large"}/>
+                            {nickname ? <AvatarIcon name={nickname} avatar={avatar}/> : <AccountCircleIcon fontSize={"large"}/>}
                             {logging && <CircularProgress size={24} className={classes.buttonProgress}/>}
                         </IconButton>
 
@@ -92,7 +95,7 @@ export default function Topbar(props) {
                 </Box>
             </div>
         </Toolbar>
-        {isBusy ? <LinearProgress/> : <></>}
+        {isBusy > 0 ? <LinearProgress/> : <></>}
         <Popover
             className={classes.popover}
             classes={{
