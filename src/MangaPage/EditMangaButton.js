@@ -1,18 +1,30 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import UserAutocomplete from "../Component/UserAutocomplete/UserAutocomplete";
-import {useSelector} from "react-redux";
+
+import {Form, Field} from 'react-final-form';
+import {TextField, Checkboxes} from 'mui-rff';
+import ImgUrlTextField from "../Component/ImgUrlTextField/ImgUrlTextField";
+
+import axios from "axios";
+import {API_MANGA} from "../constant";
+import {tokenHeader} from "../controller/user";
+import {useDispatch, useSelector} from "react-redux";
+import {setSnackbar} from "../controller/site";
+import {useHistory} from "react-router";
 
 
 export default function EditMangaButton(props) {
     const {manga} = props;
     const privilege = useSelector(state => state.user.privilege);
     const [open, setOpen] = React.useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -22,50 +34,62 @@ export default function EditMangaButton(props) {
         setOpen(false);
     };
 
+    const onSubmit = (values) => {
+        values["producer"] = document.getElementById("producer").value;
+        values["cover"] = document.getElementById("cover").value;
+        values["cherry"] = values["cherry"] === true;
+        console.log(values);
+        axios.post(API_MANGA + "/" + manga["id"], values, {
+            headers: tokenHeader(),
+            validateStatus: status => status === 200
+        }).then(res => res.data).then(res => {
+            if (res["id"] !== manga["id"])
+                history.replace("/manga/" + res["id"]);
+            window.location.reload();
+        }).catch(err => {
+            try {
+                console.log(err.response.data.detail);
+                dispatch(setSnackbar(err.response.data.detail, "error"));
+            } catch (e) {
+                dispatch(setSnackbar("未知的错误", "error"));
+            }
+        })
+    };
+
     return (
         <div>
-            <Button size="small" color="primary" onClick={handleClickOpen}>
-                编辑
-            </Button>
+            <Button variant={"contained"} color={"primary"} onClick={handleClickOpen}>编辑漫画</Button>
+
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">编辑信息</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="漫画标题"
-                        type="string"
-                        defaultValue={manga.name}
-                        fullWidth
-                    />
-                    <TextField
-                        margin="dense"
-                        id="id"
-                        label="漫画ID"
-                        type="string"
-                        defaultValue={manga.id}
-                        fullWidth
-                    />
-                    <UserAutocomplete label="制作人" defaultValue={manga.producer} disabled={privilege < 2}/>
-                    <TextField
-                        label="备注信息"
-                        id={"ps"}
-                        defaultValue={manga.ps}
-                        multiline
-                        rowsMax={5}
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        取消
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                        保存
-                    </Button>
-                </DialogActions>
+                <Form initialValues={{name: manga.name, id: manga.id, cherry: manga.cherry, ps: manga.ps}}
+                    onSubmit={onSubmit} render={({handleSubmit}) => (
+                    <form onSubmit={handleSubmit}>
+                        <DialogTitle id="form-dialog-title">编辑漫画</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                漫画ID会出现在URL上，不可重名，最好避免使用汉字。
+                            </DialogContentText>
+                            <TextField autoFocus margin="dense" name="name" label="漫画名称" type="string" fullWidth required/>
+                            <TextField margin="dense" name="id" label="漫画ID" type="string" fullWidth required/>
+                            <Checkboxes
+                                name="cherry"
+                                data={{label: "夏蜜樱桃", value: "cherry"}}
+                            />
+                            <Field component={ UserAutocomplete } name="producer" label="制作人" id="producer" disabled={privilege < 2} initVal={manga.producer}/>
+                            <Field component={ImgUrlTextField} name="cover" initVal={manga.cover}/>
+                            <TextField name="ps" label={"備考"} multiline rowsMax={5}/>
+                        </DialogContent>
+
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                取消
+                            </Button>
+                            <Button type="submit" color="primary">
+                                修改
+                            </Button>
+                        </DialogActions>
+                    </form>)}/>
             </Dialog>
         </div>
-
     );
 }

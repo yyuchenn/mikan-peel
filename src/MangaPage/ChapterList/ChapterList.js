@@ -44,6 +44,7 @@ export function SubChapterList(props) {
     const {mid, listName, adminAuth} = props;
     const [loading, setLoading] = useState(true);
     const [chapters, setChapters] = useState([]);
+    const [expanded, setExpanded] = useState("");
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -66,6 +67,6 @@ export function SubChapterList(props) {
     },[listName]);
 
     return <>{loading ? <LinearProgress/> : chapters.map((chapter) =>
-            (<ChapterListItem chapter={chapter} adminAuth={adminAuth} mid={mid} key={chapter.id}/>)
+            (<ChapterListItem chapter={chapter} adminAuth={adminAuth} mid={mid} key={chapter.id} expanded={expanded} setExpanded={setExpanded}/>)
         )}</>;
 }

@@ -39,19 +39,19 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
 };
 
-export default function TasksTable(props) {
+export default function UsersTable(props) {
+    const {users} = props;
+
     return (
         <MaterialTable icons={tableIcons} columns={[
-            {title: "漫画名", field: "manga_name"},
-            {title: "章节", field: "chapter_name"},
-            {title: "任务类型", field: "type"},
-            {title: "状态", field: "status"},
-            {title: "标签", field: "tag"},
+            {title: "昵称", field: "nickname"},
+            {title: "用户ID", field: "uid"},
+            {title: "权限", field: "privilege"},
+            {title: "自我介绍", field: "introduction"},
         ]} options={{
-            pageSize: 10
-        }} data={[
-            {manga_name: "街角魔族", status: "进行中"},
-            {manga_name: "海色进行曲", status: "已完结"}
-        ]} />
+            pageSize: 20
+        }} data={users} components={{
+            Toolbar: props => (<></>)
+        }}/>
         );
 }

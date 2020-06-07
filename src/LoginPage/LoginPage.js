@@ -63,35 +63,11 @@ export default function LoginPage() {
                     登录
                 </Typography>
                 <form className={classes.form} onSubmit={login}>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="uid"
-                        label="用户名"
-                        name="uid"
-                        autoComplete="uid"
-                        autoFocus
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="pass"
-                        label="密码"
-                        type="password"
-                        id="pass"
-                        autoComplete="current-password"
-                    />
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        type="submit"
-                    >
+                    <TextField variant="outlined" margin="normal" required fullWidth id="uid" label="用户名" name="uid"
+                               autoComplete="uid" autoFocus/>
+                    <TextField variant="outlined" margin="normal" required fullWidth name="pass" label="密码"
+                               type="password" id="pass" autoComplete="current-password"/>
+                    <Button fullWidth variant="contained" color="primary" className={classes.submit} type="submit">
                         登录
                     </Button>
                 </form>

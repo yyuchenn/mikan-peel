@@ -9,7 +9,7 @@ import {useDispatch} from "react-redux";
 import matchSorter from "match-sorter";
 
 export default function UserAutocomplete(props) {
-    const {label, id, defaultValue, disabled} = props;
+    const {input, label, initVal} = props;
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [userList, setUserList] = React.useState([]);
@@ -35,14 +35,14 @@ export default function UserAutocomplete(props) {
     return (
         <Autocomplete open={open} onOpen={() => setOpen(true)} onClose={() => setOpen(false)}
                       loading={loading} loadingText="加载中..." noOptionsText="没有这个人" options={userList}
-                      id={id} defaultValue={defaultValue} disabled={disabled}
-                      getOptionLabel={(option) => option.uid}
+                      {...props} onChange={((event, value) => input.onChange(value.uid))}
+                      getOptionLabel={(option) => option.uid} defaultValue={initVal}
                       renderOption={(option) => option.nickname + "@" + option.uid}
                       getOptionSelected={(option, value) => option.uid === value.uid}
                       filterOptions={(options, { inputValue }) =>
                           matchSorter(options, inputValue, {keys: ["nickname", "uid"]})}
                       renderInput={(params) => (
-                          <TextField
+                          <TextField required
                               {...params}
                               label={label}
                               InputProps={{

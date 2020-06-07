@@ -5,20 +5,21 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
-
-import {taskIcon} from "../Component/TaskChip/icons";
+import {taskIcon} from "../../../Component/TaskChip/icons";
 import {Form} from "react-final-form";
-import axios from "axios";
-import {API_MANGA} from "../constant";
-import {tokenHeader} from "../controller/user";
-import {setSnackbar} from "../controller/site";
 import {useDispatch} from "react-redux";
+import axios from "axios";
+import {API_MANGA} from "../../../constant";
+import {tokenHeader} from "../../../controller/user";
+import {setSnackbar} from "../../../controller/site";
 import {TextField, Select} from "mui-rff";
+import {useHistory} from "react-router";
 
 
-export default function NewTaskButton(props) {
-    const {chapter, order} = props;
+export default function EditTaskButton(props) {
+    const {task} = props;
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [open, setOpen] = React.useState(false);
 
@@ -32,11 +33,12 @@ export default function NewTaskButton(props) {
 
     const onSubmit = (values) => {
         console.log(values);
-        axios.put(API_MANGA + "/" + chapter["mid"] + "/chapter/" + chapter["id"] + "/task", values, {
-            params: {order: order},
+        axios.post(API_MANGA + "/" + task["mid"] + "/chapter/" + task["cid"] + "/task/" + task["id"], values, {
             headers: tokenHeader(),
             validateStatus: status => status === 200
-        }).then(res => {
+        }).then(res => res.data).then(res => {
+            if (res["id"] !== task["id"])
+                history.replace("/manga/" + res["mid"] + "/" + res["cid"] + "/" + res["id"]);
             window.location.reload();
         }).catch(err => {
             try {
@@ -50,12 +52,12 @@ export default function NewTaskButton(props) {
 
     return (
         <div>
-            <Button size="small" color="primary" onClick={handleClickOpen}>
-                新建任务
+            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                编辑任务
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">新建任务</DialogTitle>
-                <Form onSubmit={onSubmit} initialValues={{type: 0}} render={({handleSubmit}) => (
+                <DialogTitle id="form-dialog-title">编辑任务</DialogTitle>
+                <Form onSubmit={onSubmit} initialValues={{type: task["type"], name: task["name"], "id": task["id"]}} render={({handleSubmit}) => (
                     <form onSubmit={handleSubmit}>
                         <DialogContent>
                             <Select name="type" label="类型" required>

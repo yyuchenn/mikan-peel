@@ -8,11 +8,11 @@ export default function TaskChip(props) {
 
     return (
         <div>
-            <Chip variant={label["accept_by"]["uid"] === "" ? "outlined" : "default"} icon={taskIcon(label["type"])}
+            <Chip {...props} variant={label["accept_by"]["uid"] === "" ? "outlined" : "default"} icon={taskIcon(label["type"])}
                   color={label["status"] === 0 || label["status"] === 1 ? "primary" :
                       label["status"] === 2 ? "secondary" : ""} size={"small"}
                   label={label["name"]} clickable aria-label="Task Chip"
-                  component={Link} to={"/manga/" + label["mid"] + "/" + label["cid"] + "/" + label["id"]}/>
+                  to={"/manga/" + label["mid"] + "/" + label["cid"] + "/" + label["id"]}/>
         </div>
     );
 }

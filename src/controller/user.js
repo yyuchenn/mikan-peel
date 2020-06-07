@@ -8,20 +8,26 @@ export function auth(id, pass, history, from) {
     return dispatch => {
         dispatch(setBusy(true));
         axios.post(API_BASE + "/token", qs.stringify({
-            username: id,
-            password: pass
-        }), {
+                username: id,
+                password: pass
+            }), {
                 headers: tokenHeader(),
-                validateStatus: status => status === 200}
-            ).then(res => res.data)
+                validateStatus: status => status === 200
+            }
+        ).then(res => res.data)
             .then(res => {
-                window.localStorage.setItem("access_token", res["access_token"]);
-                dispatch(loginWithToken());
-                history.replace(from);
+                    window.localStorage.setItem("access_token", res["access_token"]);
+                    dispatch(loginWithToken());
+                    history.replace(from);
                 }
-            ).catch((e)=>{
-                dispatch(setSnackbar("登录失败", "error"));
-        }).finally(() => dispatch(setBusy(false)));
+            ).catch((err) => {
+                try {
+                    console.log(err.response.data.detail);
+                    dispatch(setSnackbar(err.response.data.detail, "error"));
+                } catch (e) {
+                    dispatch(setSnackbar("未知的错误", "error"));
+                }
+            }).finally(() => dispatch(setBusy(false)));
     };
 }
 
@@ -37,7 +43,7 @@ export function loginWithToken() {
             .then(res => res.data)
             .then(res => {
                     dispatch(Object.assign({type: FILL_USER}, res));
-                dispatch(setSnackbar("登录成功", "success"));
+                    // dispatch(setSnackbar("登录成功", "success"));
                 }
             ).catch(err => {
                 console.log("未登录");
@@ -51,8 +57,7 @@ export function loginWithToken() {
 
 export function tokenHeader() {
     let token = window.localStorage.getItem("access_token");
-    return { 'Authorization': 'Bearer ' + token ,
-        'content-type': 'application/x-www-form-urlencoded'};
+    return {'Authorization': 'Bearer ' + token};
 }
 
 

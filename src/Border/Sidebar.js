@@ -58,7 +58,7 @@ export default function Sidebar(props) {
                         <SidebarItem to={"/cloud"} name={"文件"} sidebarToggle={sidebarToggle}>
                             <FolderSharedIcon/>
                         </SidebarItem>
-                        <SidebarItem name={"成员"} sidebarToggle={sidebarToggle}>
+                        <SidebarItem to={"/users"} name={"成员"} sidebarToggle={sidebarToggle}>
                             <PeopleIcon/>
                         </SidebarItem>
                         <SidebarItem name={"统计"} sidebarToggle={sidebarToggle}>

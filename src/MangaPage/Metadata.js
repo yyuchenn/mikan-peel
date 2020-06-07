@@ -13,6 +13,7 @@ import EditMangaButton from "./EditMangaButton";
 import UserChip from "../Component/UserChip/UserChip";
 
 import {localtime} from "../controller/utils";
+import Stackedit from "stackedit-js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,6 +71,10 @@ export default function Metadata(props) {
                         <Box display="flex" flexDirection={"row"}>
                             <Box flexGrow={1}><Typography>开坑时间</Typography></Box>
                             <Box>{localtime(manga.create_on)}</Box>
+                        </Box>
+                        <Box display="flex" flexDirection={"row"}>
+                            <Box flexGrow={1}><Typography>最后一次活跃</Typography></Box>
+                            <Box>{localtime(manga.last_update)}</Box>
                         </Box>
                         <Box>
                             <Typography paragraph>{manga.ps}</Typography>

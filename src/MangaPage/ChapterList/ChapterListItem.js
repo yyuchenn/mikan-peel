@@ -13,10 +13,17 @@ import Divider from '@material-ui/core/Divider';
 import Box from "@material-ui/core/Box";
 import EditChapterButton from "./EditChapterButton";
 import TaskChip from "../../Component/TaskChip/TaskChip";
+import {Link} from "react-router-dom";
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%'
+    },
+    rootExpanded: {
+        width: '100%',
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -28,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
     details: {
         alignItems: 'center',
     },
-    title: {
-        width: '20%',
+    taskChip: {
+        marginRight: theme.spacing(1),
     },
     summary: {
-        width: '80%',
+        width: '100%',
     },
 }));
 
@@ -41,27 +48,34 @@ export default function ChapterListItem(props) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
-    const {chapter, adminAuth, mid} = props;
+    const {chapter, adminAuth, mid, expanded, setExpanded} = props;
+
+    const handleExpand = () => {
+        if (expanded === chapter["id"]) setExpanded("");
+        else setExpanded(chapter["id"]);
+    };
 
     return (
-        <div className={classes.root}>
-            <ExpansionPanel>
-                <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon/>}
-                    aria-controls="panel1c-content"
-                    id="panel1c-header"
-                >
-                    <div className={classes.title}>
-                        <Typography className={classes.heading} noWrap>{chapter["name"]}</Typography>
-                    </div>
-                    {chapter["tasks"].map((task, key) => {
-                        return task["status"] === 0 && <TaskChip label={task}/>
-                    })}
-                    <Typography noWrap className={classes.secondaryHeading}>{chapter["ps"]}</Typography>
-
+        <div className={expanded === chapter["id"] ? classes.rootExpanded : classes.root}>
+            <ExpansionPanel TransitionProps={{ unmountOnExit: true }} expanded={expanded === chapter["id"]} onChange={handleExpand}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} aria-controls="chapter-summary">
+                    <Box display="flex" flexDirection="row" className={classes.summary}>
+                        <Box flexGrow={1}>
+                            <Typography className={classes.heading} noWrap>{chapter["name"]}</Typography>
+                        </Box>
+                        <Box display="flex" flexDirection="row">
+                            {chapter["tasks"].map((task, key) => {
+                                return task["status"] === 0 &&
+                                    <TaskChip label={task} key={key} className={classes.taskChip} component={Link} />
+                            })}
+                        </Box>
+                    </Box>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={classes.details}>
+                    <Box  display="flex" flexDirection="column" className={classes.summary}>
                     <ChapterStepper vertical={!isDesktop} chapter={chapter} mid={mid}/>
+                    <Typography className={classes.secondaryHeading}>{chapter["ps"]}</Typography>
+                    </Box>
                 </ExpansionPanelDetails>
                 {adminAuth && <>
                     <Divider/>

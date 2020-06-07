@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -17,13 +16,21 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import {taskIcon} from "../../Component/TaskChip/icons";
+import {Form} from "react-final-form";
+import {TextField} from "mui-rff";
+import axios from "axios";
+import {API_MANGA} from "../../constant";
+import {tokenHeader} from "../../controller/user";
+import {setSnackbar} from "../../controller/site";
+import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
 
 
 export default function EditChapterButton(props) {
-
     const {chapter} = props;
-
     const [open, setOpen] = React.useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -33,7 +40,35 @@ export default function EditChapterButton(props) {
         setOpen(false);
     };
 
-    const [tasksList, setTasksList] = React.useState(chapter["tasks"]);
+    const [tasksList, setTasksList] = React.useState([]);
+
+    React.useEffect(() => {
+        let tasks = chapter["tasks"].slice();
+        for (let i = 0; i < tasks.length; i++) {
+            tasks[i]["order"] = i;
+        }
+        setTasksList(tasks);
+    }, []);
+
+    const onSubmit = (values) => {
+        values["tasks"] = tasksList.map(task => task.order);
+        console.log(values);
+        axios.post(API_MANGA + "/" + chapter["mid"] + "/chapter/" + chapter["id"], values, {
+            headers: tokenHeader(),
+            validateStatus: status => status === 200
+        }).then(res => res.data).then(res => {
+            if (res["id"] !== chapter["id"])
+                history.replace("/manga/" + res["mid"]);
+            window.location.reload();
+        }).catch(err => {
+            try {
+                console.log(err.response.data.detail);
+                dispatch(setSnackbar(err.response.data.detail, "error"));
+            } catch (e) {
+                dispatch(setSnackbar("未知的错误", "error"));
+            }
+        })
+    };
 
     return (
         <div>
@@ -42,30 +77,17 @@ export default function EditChapterButton(props) {
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">编辑章节</DialogTitle>
+                <Form onSubmit={onSubmit} initialValues={{name: chapter["name"], id: chapter["id"], ps: chapter["ps"]}} render={({handleSubmit}) => (
+                    <form onSubmit={handleSubmit}>
                 <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="章节标题"
-                        type="string"
-                        defaultValue={chapter["name"]}
-                        fullWidth
-                    />
-                    <TextField
-                        margin="dense"
-                        id="id"
-                        label="章节ID"
-                        type="string"
-                        defaultValue={chapter["id"]}
-                        fullWidth
-                    />
-
-
+                    <TextField margin="dense" name="name" label="章节标题" type="string" fullWidth/>
+                    <TextField margin="dense" name="id" label="章节ID" type="string" fullWidth/>
+                    <TextField name="ps" label={"備考"} multiline rowsMax={5}/>
                     <List subheader={
                         <ListSubheader component="div">
                             <Box display="flex" flexDirection="row" alignItems="flex-end">
                                 <Box flexGrow={1}><DialogContentText>任务</DialogContentText></Box>
-                                <Box><NewTaskButton/></Box>
+                                <Box><NewTaskButton chapter={chapter} order={chapter["tasks"].length}/></Box>
                             </Box>
                         </ListSubheader>
                     }>
@@ -86,10 +108,11 @@ export default function EditChapterButton(props) {
                     <Button onClick={handleClose} color="primary">
                         取消
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button type="submit" color="primary">
                         保存
                     </Button>
                 </DialogActions>
+                    </form>)}/>
             </Dialog>
         </div>
 
