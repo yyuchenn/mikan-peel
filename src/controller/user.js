@@ -1,6 +1,6 @@
 import axios from "axios";
 import qs from 'qs';
-import {FILL_USER, SET_LOGGING} from "../reducers/user";
+import {FILL_USER, SET_LOGGING, SET_NOTIFICATIONS} from "../reducers/user";
 import {setBusy, setSnackbar} from "./site";
 import {API_BASE} from "../constant";
 
@@ -68,4 +68,10 @@ export function setLogging(logging) {
             logging: logging
         })
     }
+}
+
+export function setNotifications(number) {
+    return dispatch => {
+        dispatch(Object.assign({type: SET_NOTIFICATIONS}, {number: number}));
+    };
 }

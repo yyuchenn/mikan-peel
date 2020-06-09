@@ -14,6 +14,8 @@ import UserChip from "../Component/UserChip/UserChip";
 
 import {localtime} from "../controller/utils";
 import Stackedit from "stackedit-js";
+import {API_MANGA} from "../constant";
+import DeleteButton from "../Component/DeleteButton/DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -83,7 +85,10 @@ export default function Metadata(props) {
                 </ExpansionPanelDetails>
                 <Divider/>
                 <ExpansionPanelActions>
-                    {adminAuth && <EditMangaButton manga={manga}/>}
+                    {adminAuth && <>
+                        <DeleteButton api={API_MANGA + "/" + manga["id"]} size="small" variant="outlined"
+                                      callback={""} className={classes.button} id={manga["id"]} name={"漫画"}/>
+                                      <EditMangaButton manga={manga}/></>}
                 </ExpansionPanelActions>
             </Collapse>
         </Box>

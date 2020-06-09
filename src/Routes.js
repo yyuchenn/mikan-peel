@@ -15,7 +15,8 @@ import DashboardPage from "./DashboardPage/DashboardPage";
 import Snackbar from "./Snackbar";
 import OAuthPage from "./OAuthPage/OAuthPage";
 import CloudPage from "./CloudPage/CloudPage";
-import UsersPage from "./UserPage/UsersPage";
+import UsersPage from "./UsersPage/UsersPage";
+import MessagePage from "./MessagePage/MessagePage";
 
 export default function Routes() {
 
@@ -43,6 +44,9 @@ export default function Routes() {
                     </PrivateRoute>
                     <PrivateRoute path={"/users"}>
                         <UsersPage/>
+                    </PrivateRoute>
+                    <PrivateRoute path={"/message"}>
+                        <MessagePage/>
                     </PrivateRoute>
                     <Route path={"/manga/:mid"} children={<MangaPage/>} />
                 </Switch>

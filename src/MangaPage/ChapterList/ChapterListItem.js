@@ -14,7 +14,8 @@ import Box from "@material-ui/core/Box";
 import EditChapterButton from "./EditChapterButton";
 import TaskChip from "../../Component/TaskChip/TaskChip";
 import {Link} from "react-router-dom";
-import Chip from "@material-ui/core/Chip";
+import {API_MANGA} from "../../constant";
+import DeleteButton from "../../Component/DeleteButton/DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -80,6 +81,8 @@ export default function ChapterListItem(props) {
                 {adminAuth && <>
                     <Divider/>
                     <ExpansionPanelActions>
+                        <DeleteButton api={API_MANGA + "/" + mid + "/chapter/" + chapter["id"]}
+                                      callback={"/manga/" + mid} className={classes.button} size="small" variant="outlined" reload/>
                         <EditChapterButton chapter={chapter}/>
                     </ExpansionPanelActions>
                 </>}

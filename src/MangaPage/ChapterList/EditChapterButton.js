@@ -72,8 +72,8 @@ export default function EditChapterButton(props) {
 
     return (
         <div>
-            <Button size="small" color="primary" onClick={handleClickOpen}>
-                编辑
+            <Button variant="outlined" size="small" color="primary" onClick={handleClickOpen}>
+                编辑章节
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">编辑章节</DialogTitle>

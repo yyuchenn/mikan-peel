@@ -5,7 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import axios from "axios";
-import {api_chapter, API_MANGA} from "../../constant";
+import {API_MANGA} from "../../constant";
 import {setSnackbar} from "../../controller/site";
 import {useDispatch} from "react-redux";
 import LinearProgress from "@material-ui/core/LinearProgress";

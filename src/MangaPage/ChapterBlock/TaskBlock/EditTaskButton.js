@@ -52,7 +52,7 @@ export default function EditTaskButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" size="small" color="primary" onClick={handleClickOpen} {...props}>
                 编辑任务
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

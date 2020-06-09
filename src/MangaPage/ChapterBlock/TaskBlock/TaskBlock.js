@@ -13,6 +13,7 @@ import TagChip from "../../../Component/TagChip/TagChip";
 import Skeleton from "@material-ui/lab/Skeleton";
 import AddTagChip from "../../../Component/TagChip/AddTagChip";
 import TaskInfo from "./TaskInfo";
+import DeleteButton from "../../../Component/DeleteButton/DeleteButton";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     label: {
         marginTop: theme.spacing(0.5),
         marginRight: theme.spacing(0.5)
+    },
+    button: {
+        marginLeft: theme.spacing(1),
     }
 }));
 
@@ -63,9 +67,12 @@ export default function TaskBlock(props) {
                 <Box flexGrow={1}>
                     <Typography variant="h3">{(task && <>{taskIcon(task["type"])}{task["name"]}</>) || <Skeleton/>}</Typography>
                 </Box>
-                {task && adminAuth && <EditTaskButton task={task}/>}
+                {task && adminAuth && <>
+                    <DeleteButton api={API_MANGA + "/" + manga["id"] + "/chapter/" + chapter["id"] + "/task/" + tid} name="任务"
+                                  variant="outlined" size="small" callback={"/manga/" + manga["id"]} className={classes.button}/>
+                    <EditTaskButton task={task} className={classes.button}/></>}
             </Box>
-            {task && adminAuth && <TaskInfo task={task} adminAuth={adminAuth}/>}
+            {task && <TaskInfo task={task} adminAuth={adminAuth}/>}
         </div>
     );
 }

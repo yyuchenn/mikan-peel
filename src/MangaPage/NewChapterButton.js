@@ -11,8 +11,8 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 
-import {Form, Field} from 'react-final-form';
-import {TextField, Checkboxes} from 'mui-rff';
+import {Form} from 'react-final-form';
+import {TextField} from 'mui-rff';
 import axios from "axios";
 import {API_MANGA} from "../constant";
 import {tokenHeader} from "../controller/user";
@@ -63,7 +63,7 @@ export default function NewChapterButton(props) {
 
     return (
         <div>
-            <Button color="primary" onClick={handleClickOpen} variant="contained">
+            <Button color="primary" onClick={handleClickOpen} variant="outlined">
                 新建章节
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

@@ -79,7 +79,7 @@ export default function Topbar(props) {
                     </Box>
                     <Box>
                         {privilege > 0 && (<IconButton onMouseEnter={(e) => handlePopoverOpen(e, "通知")}
-                                    onMouseLeave={handlePopoverClose} aria-label={"notification"}>
+                                    onMouseLeave={handlePopoverClose} aria-label={"notification"} component={Link} to={"/message"}>
                             <Badge badgeContent={number_of_notification} overlap={"circle"} color={"secondary"}>
                                 <NotificationsIcon fontSize={"large"}/>
                             </Badge>

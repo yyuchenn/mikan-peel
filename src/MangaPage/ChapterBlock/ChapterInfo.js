@@ -10,6 +10,8 @@ import Divider from '@material-ui/core/Divider';
 import Box from "@material-ui/core/Box";
 import EditChapterButton from "../ChapterList/EditChapterButton";
 import UserChip from "../../Component/UserChip/UserChip";
+import {API_MANGA} from "../../constant";
+import DeleteButton from "../../Component/DeleteButton/DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,6 +64,8 @@ export default function ChapterInfo(props) {
                 {adminAuth && <>
                     <Divider/>
                     <ExpansionPanelActions>
+                        <DeleteButton api={API_MANGA + "/" + chapter["mid"] + "/chapter/" + chapter["id"]} name="章节"
+                                      callback={"/manga/" + chapter["mid"]} className={classes.button} size="small" variant="outlined"/>
                         <EditChapterButton chapter={chapter}/>
                     </ExpansionPanelActions>
                 </>}

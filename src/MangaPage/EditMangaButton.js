@@ -38,6 +38,7 @@ export default function EditMangaButton(props) {
         values["producer"] = document.getElementById("producer").value;
         values["cover"] = document.getElementById("cover").value;
         values["cherry"] = values["cherry"] === true;
+        values["status"] = values["status"] === true ? 1 : 0;
         console.log(values);
         axios.post(API_MANGA + "/" + manga["id"], values, {
             headers: tokenHeader(),
@@ -58,10 +59,10 @@ export default function EditMangaButton(props) {
 
     return (
         <div>
-            <Button variant={"contained"} color={"primary"} onClick={handleClickOpen}>编辑漫画</Button>
+            <Button variant="outlined" color="primary" size="small" onClick={handleClickOpen}>编辑漫画</Button>
 
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <Form initialValues={{name: manga.name, id: manga.id, cherry: manga.cherry, ps: manga.ps}}
+                <Form initialValues={{name: manga.name, id: manga.id, cherry: manga.cherry, status: manga.status === 1, ps: manga.ps}}
                     onSubmit={onSubmit} render={({handleSubmit}) => (
                     <form onSubmit={handleSubmit}>
                         <DialogTitle id="form-dialog-title">编辑漫画</DialogTitle>
@@ -74,6 +75,10 @@ export default function EditMangaButton(props) {
                             <Checkboxes
                                 name="cherry"
                                 data={{label: "夏蜜樱桃", value: "cherry"}}
+                            />
+                            <Checkboxes
+                                name="status"
+                                data={{label: "不再更新", value: "cherry"}}
                             />
                             <Field component={ UserAutocomplete } name="producer" label="制作人" id="producer" disabled={privilege < 2} initVal={manga.producer}/>
                             <Field component={ImgUrlTextField} name="cover" initVal={manga.cover}/>

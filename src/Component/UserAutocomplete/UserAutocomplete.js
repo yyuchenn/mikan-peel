@@ -35,7 +35,7 @@ export default function UserAutocomplete(props) {
     return (
         <Autocomplete open={open} onOpen={() => setOpen(true)} onClose={() => setOpen(false)}
                       loading={loading} loadingText="加载中..." noOptionsText="没有这个人" options={userList}
-                      {...props} onChange={((event, value) => input.onChange(value.uid))}
+                      {...props} onChange={((event, value) => input.onChange(value ? value.uid : null))}
                       getOptionLabel={(option) => option.uid} defaultValue={initVal}
                       renderOption={(option) => option.nickname + "@" + option.uid}
                       getOptionSelected={(option, value) => option.uid === value.uid}

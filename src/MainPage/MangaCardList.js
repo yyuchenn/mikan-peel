@@ -8,6 +8,7 @@ import {API_MANGA} from "../constant";
 import {useDispatch, useSelector} from "react-redux";
 
 export default function MangaCardList(props) {
+    const {showFinished} = props;
     const [mangas, setMangas] = useState([]);
     const showCherry = useSelector(state => state.site.showCherry);
     const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export default function MangaCardList(props) {
             <Box display={"flex"} flexWrap={"wrap"}
                  justifyContent={"center"} alignItems={"center"}>
                 {mangas.map((manga) => {
-                    if (!manga.cherry || showCherry)
+                    if ((!manga.cherry || showCherry) && (manga.status === 0 || showFinished))
                         return (<MangaCard manga={manga} key={manga.id}/>);
                 })}
             </Box>

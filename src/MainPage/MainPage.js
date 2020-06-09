@@ -40,6 +40,7 @@ export default function MainPage(props) {
     const classes = useStyles();
     const privilege = useSelector(state => state.user.privilege);
     const [expanded, setExpanded] = React.useState(false);
+    const [showFinished, setShowFinished] = React.useState(false);
     const showCherry = useSelector(state => state.site.showCherry);
     const dispatch = useDispatch();
 
@@ -51,6 +52,10 @@ export default function MainPage(props) {
 
     const onChangeCherry = (event) => {
         dispatch(setShowCherry(event.target.checked));
+    };
+
+    const onChangeFinish = (event) => {
+        setShowFinished(event.target.checked);
     };
 
     return (
@@ -87,12 +92,20 @@ export default function MainPage(props) {
                         value={showCherry}
                         size={"small"}
                         control={<Switch color="primary"/>}
-                        label={showCherry ? "显示夏蜜樱桃" : "隐藏夏蜜樱桃"}
+                        label="显示夏蜜樱桃的作品"
+                        labelPlacement="start"/>
+                    <FormControlLabel
+                        checked={showFinished}
+                        onChange={onChangeFinish}
+                        value={showCherry}
+                        size={"small"}
+                        control={<Switch color="primary"/>}
+                        label="显示不再更新的作品"
                         labelPlacement="start"/>
                 </Box>
             </Collapse>
 
-            <MangaCardList/>
+            <MangaCardList showFinished={showFinished}/>
         </Container>
     );
 }
