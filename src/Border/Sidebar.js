@@ -4,7 +4,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import SidebarItem from "./SidebarItem";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, useTheme} from "@material-ui/core/styles";
 import {Box} from "@material-ui/core";
 
 import MenuBookIcon from '@material-ui/icons/MenuBook';
@@ -14,6 +14,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import {useSelector} from "react-redux";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 export const desktopWidth = 100;
 const mobileWidth = 150;
@@ -31,12 +32,14 @@ const useStyle = makeStyles((theme) => ({
             width: desktopWidth,
         },
         width: mobileWidth,
-    },
+    }
 }));
 
 export default function Sidebar(props) {
     const {sidebarToggle, openStatus} = props;
     const classes = useStyle();
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
     const privilege = useSelector(state => state.user.privilege);
 
@@ -50,28 +53,29 @@ export default function Sidebar(props) {
 
                     <List disablePadding={true}>
                         <SidebarItem to={"/"} name={"漫画"} sidebarToggle={sidebarToggle}>
-                            <MenuBookIcon/>
+                            <MenuBookIcon style={isDesktop ? {fontSize: 83} : {}}/>
                         </SidebarItem>
                         <SidebarItem to={"/tasks"} name={"任务"} sidebarToggle={sidebarToggle}>
-                            <DateRangeIcon/>
+                            <DateRangeIcon style={isDesktop ? {fontSize: 83} : {}}/>
                         </SidebarItem>
                         <SidebarItem to={"/cloud"} name={"文件"} sidebarToggle={sidebarToggle}>
-                            <FolderSharedIcon/>
+                            <FolderSharedIcon style={isDesktop ? {fontSize: 83} : {}}/>
                         </SidebarItem>
                         <SidebarItem to={"/users"} name={"成员"} sidebarToggle={sidebarToggle}>
-                            <PeopleIcon/>
+                            <PeopleIcon style={isDesktop ? {fontSize: 83} : {}}/>
                         </SidebarItem>
-                        <SidebarItem name={"统计"} sidebarToggle={sidebarToggle}>
-                            <EqualizerIcon/>
-                        </SidebarItem>
+                        {privilege > 99 &&
+                        <SidebarItem to={"/stat"} name={"统计"} sidebarToggle={sidebarToggle}>
+                            <EqualizerIcon style={isDesktop ? {fontSize: 83} : {}}/>
+                        </SidebarItem>}
                     </List>
                 </Box>
-                {privilege > 2 &&
+                {privilege > 99 &&
                 <Box>
                     <Divider/>
                     <List>
                         <SidebarItem name={"管理"} sidebarToggle={sidebarToggle}>
-                            <ExtensionIcon/>
+                            <ExtensionIcon style={isDesktop ? {fontSize: 83} : {}}/>
                         </SidebarItem>
                     </List>
                 </Box>

@@ -5,8 +5,7 @@ import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
 
 import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {useHistory, useLocation} from "react-router";
+import {useLocation} from "react-router";
 import {API_THIRD_PARTY} from "../constant";
 import {tokenHeader} from "../controller/user";
 import {setTitle} from "../controller/utils";
@@ -24,11 +23,8 @@ function useQuery() {
 
 export default function OAuthPage(props) {
     const classes = useStyles();
-    const uid = useSelector(state => state.user.uid);
     const [fail, setFail] = useState(false);
     const query = useQuery();
-    const dispatch = useDispatch();
-    const history = useHistory();
 
     React.useEffect(() => {
         setTitle("授权");

@@ -13,7 +13,6 @@ import EditMangaButton from "./EditMangaButton";
 import UserChip from "../Component/UserChip/UserChip";
 
 import {localtime} from "../controller/utils";
-import Stackedit from "stackedit-js";
 import {API_MANGA} from "../constant";
 import DeleteButton from "../Component/DeleteButton/DeleteButton";
 

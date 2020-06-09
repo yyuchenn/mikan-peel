@@ -39,19 +39,26 @@ export function loginWithToken() {
         await axios.get(API_BASE + "/profile", {
             headers: tokenHeader(),
             validateStatus: status => status === 200
-        })
-            .then(res => res.data)
-            .then(res => {
-                    dispatch(Object.assign({type: FILL_USER}, res));
-                    // dispatch(setSnackbar("登录成功", "success"));
-                }
-            ).catch(err => {
-                console.log("未登录");
-            }).finally(() => {
-                dispatch(setBusy(false));
-                dispatch(setLogging(false));
-            });
+        }).then(res => res.data).then(res => {
+            dispatch(Object.assign({type: FILL_USER}, res));
+            // dispatch(setSnackbar("登录成功", "success"));
+            refreshToken()
+        }).catch(err => {
+            console.log("未登录");
+        }).finally(() => {
+            dispatch(setBusy(false));
+            dispatch(setLogging(false));
+        });
     };
+}
+
+function refreshToken() {
+    axios.get(API_BASE + "/refresh_token", {
+        headers: tokenHeader(),
+        validateStatus: status => status === 200
+    }).then(res => res.data).then(res => {
+        window.localStorage.setItem("access_token", res["access_token"]);
+    });
 }
 
 

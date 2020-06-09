@@ -18,7 +18,6 @@ import axios from "axios";
 import {API_BASE} from "../constant";
 import {setBusy, setSnackbar} from "../controller/site";
 import {setNotifications, tokenHeader} from "../controller/user";
-import DeleteButton from "../Component/DeleteButton/DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
     titleArea: {

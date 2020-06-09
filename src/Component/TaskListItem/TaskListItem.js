@@ -4,13 +4,17 @@ import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
-import TagChip from "../Component/TagChip/TagChip";
+import TagChip from "../TagChip/TagChip";
 import {Link} from "react-router-dom";
+import {localtime_exact} from "../../controller/utils";
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%'
+    },
+    taskListItem: {
+        marginTop: theme.spacing(1)
     }
 }));
 
@@ -28,11 +32,16 @@ export default function TaskListItem(props) {
                         {task["mname"]}{task["cname"]}{task["name"]}
                     </Typography>
                 </Box>
+                {task["status"] === 0 && task["accept_by"]["uid"] === "" &&
                 <Box>
                     {task["tags"].map((tag, key) => {
-                        return <TagChip tag={tag} size="small"/>;
+                        return <TagChip tag={tag} size="small" key={key}/>;
                     })}
-                </Box>
+                </Box>}
+                {task["status"] === 0 && task["accept_by"]["uid"] !== "" &&
+                <Box>
+                    <Typography variant="subtitle1">{localtime_exact(task["accept_on"])}</Typography>
+                </Box>}
             </Box>
         </ExpansionPanelSummary>
         </Paper>

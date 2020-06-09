@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function UsersPage() {
+export default function PeoplePage() {
     const classes = useStyles();
     const [users, setUsers] = useState([]);
     const dispatch = useDispatch();

@@ -34,8 +34,6 @@ export default function SidebarItem(props) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
-    const iconDesktop = React.cloneElement(props.children, {style: {fontSize: 83}});
-
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -53,7 +51,7 @@ export default function SidebarItem(props) {
                       selected={match !== null}>
                 <Hidden smDown>
                     <Button onMouseEnter={handlePopoverOpen}
-                            onMouseLeave={handlePopoverClose}>{iconDesktop}</Button>
+                            onMouseLeave={handlePopoverClose}>{props.children}</Button>
                 </Hidden>
                 <Hidden mdUp>
                     <ListItemIcon style={{minWidth: "40px"}}>{props.children}</ListItemIcon>

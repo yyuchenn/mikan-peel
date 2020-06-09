@@ -18,6 +18,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import {useHistory} from "react-router";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -40,18 +41,19 @@ const tableIcons = {
 };
 
 export default function UsersTable(props) {
+    const history = useHistory();
     const {users} = props;
 
     return (
         <MaterialTable icons={tableIcons} columns={[
             {title: "昵称", field: "nickname"},
             {title: "用户ID", field: "uid"},
-            {title: "权限", field: "privilege"},
-            {title: "自我介绍", field: "introduction"},
         ]} options={{
             pageSize: 20
         }} data={users} components={{
             Toolbar: props => (<></>)
+        }} onRowClick={(event, rowData, togglePanel) => {
+            history.push("/user/" + rowData["uid"]);
         }}/>
         );
 }

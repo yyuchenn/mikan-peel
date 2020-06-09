@@ -7,7 +7,7 @@ import {setBusy, setSnackbar} from "../controller/site";
 import axios from "axios";
 import {API_TASK} from "../constant";
 import {useDispatch} from "react-redux";
-import TaskListItem from "./TaskListItem";
+import TaskListItem from "../Component/TaskListItem/TaskListItem";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import {taskIcon} from "../Component/TaskChip/icons";

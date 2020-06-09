@@ -15,7 +15,7 @@ import {useHistory} from "react-router";
 
 
 export default function DeleteButton(props) {
-    const {id, name, api, callback, reload} = props;
+    const {id, name, api, callback, reload, ...others} = props;
     const [open, setOpen] = React.useState(false);
     const [input, setInput] = React.useState();
     const dispatch = useDispatch();
@@ -51,7 +51,7 @@ export default function DeleteButton(props) {
 
     return (
         <div>
-            <Button variant="contained" color="secondary" onClick={handleClickOpen} {...props}>删除{name}</Button>
+            <Button variant="contained" color="secondary" onClick={handleClickOpen} {...others}>删除{name}</Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">确认删除</DialogTitle>
                         <DialogContent>
