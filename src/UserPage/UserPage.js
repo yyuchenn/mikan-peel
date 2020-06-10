@@ -15,8 +15,12 @@ import axios from "axios";
 import {API_USER} from "../constant";
 import {setBusy, setSnackbar} from "../controller/site";
 import {useDispatch, useSelector} from "react-redux";
-import {setTitle} from "../controller/utils";
+import {localtime, setTitle} from "../controller/utils";
 import Link from "@material-ui/core/Link";
+import UserChip from "../Component/UserChip/UserChip";
+import {tokenHeader} from "../controller/user";
+import TaskListItem from "../Component/TaskListItem/TaskListItem";
+import ChangePasswordButton from "../Component/ChangePasswordButton/ChangePasswordButton";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +45,7 @@ export default function UserPage(props) {
     const privilege = useSelector(state => state.user.privilege);
 
     const [user, setUser] = useState({});
+    const [tasks, setTasks] = useState();
 
     React.useEffect(() => {
         dispatch(setBusy(true));
@@ -59,6 +64,22 @@ export default function UserPage(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    React.useEffect(() => {
+        dispatch(setBusy(true));
+        axios.get(API_USER + "/" + uid + "/tasks", {
+            headers: tokenHeader(),
+            withCredentials: true,
+            validateStatus: status => status === 200
+        })
+            .then(res => res.data)
+            .then(res => {
+                    setTasks(res["tasks"]);
+                }
+            ).catch(err => {
+            dispatch(setSnackbar("拉取任务列表失败", "error"));
+        }).finally(() => dispatch(setBusy(false)));
+    }, []);
+
     return (
         <Container maxWidth={"lg"}>
             <Box display={"flex"} alignItems={"flex-end"} className={classes.titleArea}>
@@ -71,7 +92,7 @@ export default function UserPage(props) {
                                color="inherit">{user["nickname"]}</Link> || <Skeleton/>}
                     </Typography>
                 </Box>
-                <Box>{privilege > 2 && <NewChapterButton/>}</Box>
+                <Box>{privilege > 2 && <ChangePasswordButton uid={user["uid"]}/>}</Box>
             </Box>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={3}>
@@ -83,10 +104,31 @@ export default function UserPage(props) {
                                 title={user["nickname"]}
                             />
                         </Card>}
+                        <Box display="flex" flexDirection={"column"} style={{ width: '100%' }}>
+
+                            <Box display="flex" flexDirection={"row"}>
+                                <Box flexGrow={1}><Typography>加入时间</Typography></Box>
+                                <Box>{user && localtime(user["join_time"])}</Box>
+                            </Box>
+                            <Box display="flex" flexDirection={"row"}>
+                                <Box flexGrow={1}><Typography>最后一次活跃</Typography></Box>
+                                <Box>{user && localtime(user["goo_timestamp"])}</Box>
+                            </Box>
+                            <Box display="flex" flexDirection={"row"}>
+                                <Box flexGrow={1}><Typography>权限</Typography></Box>
+                                <Box>{user && user["privilege"]}</Box>
+                            </Box>
+                            <Box>
+                                <Typography paragraph>{user && user["introduction"]}</Typography>
+                            </Box>
+                        </Box>
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={9}>
-
+                    <Typography variant="h5" style={{marginBottom: "2rem"}}>任务</Typography>
+                    <Box display="flex" style={{width: "100%"}} flexDirection="column">
+                        {tasks && tasks.map((task, key) => <TaskListItem task={task} key={key}/>)}
+                    </Box>
                 </Grid>
             </Grid>
         </Container>

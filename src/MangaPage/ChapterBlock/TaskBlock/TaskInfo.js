@@ -19,6 +19,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import UserAutocomplete from "../../../Component/UserAutocomplete/UserAutocomplete";
+import StatusIcon from "../../../Component/StatusIcon/StatusIcon";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,9 +79,9 @@ export default function TaskBlock(props) {
                 <Divider/>
                 <Box display="flex" className={classes.listItem}>
                     <Box flexGrow={1}><Typography variant="h6">状态</Typography></Box>
-                    <Box><Typography variant="h6">{taskState && taskState["status"] === 0 && "进行中"}
-                        {taskState && taskState["status"] === 1 && "已完成"}
-                        {taskState && taskState["status"] === 2 && "未开始"}
+                    <Box><Typography variant="h6">{taskState && taskState["status"] === 0 && <StatusIcon status={0}/>}
+                        {taskState && taskState["status"] === 1 && <StatusIcon status={1}/>}
+                        {taskState && taskState["status"] === 2 && <StatusIcon status={2}/>}
                     </Typography></Box>
                     <Box>{taskState &&
                     <ToggleStatusButtons taskState={taskState} setTaskState={setTaskState} {...props}/>}</Box>
@@ -203,13 +204,13 @@ function ToggleStatusButtons(props) {
     };
 
     return <>{taskState["status"] === 0 && <>
-        {adminAuth && <Button variant="contained" color="secondary" size="small" onClick={handleStatusClick(2)} className={classes.button}>停止</Button>}
+        {adminAuth && <Button variant="contained" color="secondary" size="small" onClick={handleStatusClick(2)} className={classes.button}><StatusIcon status={2}/>停止</Button>}
         {(taskState["accept_by"]["uid"] === uid || adminAuth) && taskState["accept_by"]["uid"] !== "" &&
-        <Button variant="contained" color="primary" size="small" onClick={handleStatusClick(1)} className={classes.button}>完成</Button>}
+        <Button variant="contained" color="primary" size="small" onClick={handleStatusClick(1)} className={classes.button}><StatusIcon status={1}/>完成</Button>}
     </>}
         {adminAuth && <>{taskState && taskState["status"] === 1 &&
-        <Button variant="contained" color="primary" size="small" onClick={handleStatusClick(0)} className={classes.button}>再开</Button>}
+        <Button variant="contained" color="primary" size="small" onClick={handleStatusClick(0)} className={classes.button}><StatusIcon status={0}/>再开</Button>}
             {taskState && taskState["status"] === 2 &&
-            <Button variant="contained" color="primary" size="small" onClick={handleStatusClick(0)} className={classes.button}>开始</Button>}</>}
+            <Button variant="contained" color="primary" size="small" onClick={handleStatusClick(0)} className={classes.button}><StatusIcon status={0}/>开始</Button>}</>}
     </>;
 }

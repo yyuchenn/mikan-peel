@@ -3,18 +3,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import { useDispatch } from "react-redux";
-import {
-    useHistory,
-    useLocation
-} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {auth} from "../controller/user";
 import {setTitle} from "../controller/utils";
+import Leaf from "mdi-material-ui/Leaf";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -57,13 +54,13 @@ export default function LoginPage() {
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <FingerprintIcon />
+                    <Leaf />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     登录
                 </Typography>
                 <form className={classes.form} onSubmit={login}>
-                    <TextField variant="outlined" margin="normal" required fullWidth id="uid" label="用户名" name="uid"
+                    <TextField variant="outlined" margin="normal" required fullWidth id="uid" label="用户ID" name="uid"
                                autoComplete="uid" autoFocus/>
                     <TextField variant="outlined" margin="normal" required fullWidth name="pass" label="密码"
                                type="password" id="pass" autoComplete="current-password"/>

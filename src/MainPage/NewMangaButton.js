@@ -59,11 +59,8 @@ export default function NewMangaButton() {
                     <form onSubmit={handleSubmit}>
                         <DialogTitle id="form-dialog-title">创建漫画</DialogTitle>
                         <DialogContent>
-                            <DialogContentText>
-                                漫画ID会出现在URL上，不可重名，最好避免使用汉字。
-                            </DialogContentText>
                             <TextField autoFocus margin="dense" name="name" label="漫画名称" type="string" fullWidth required/>
-                            <TextField margin="dense" name="id" label="漫画ID" type="string" fullWidth required/>
+                            <TextField margin="dense" name="id" label="漫画ID" type="string" fullWidth required helperText="漫画ID会出现在URL上，不可重名，最好避免使用汉字。建议：罗马字/英文简写。"/>
                             <Checkboxes
                                 name="cherry"
                                 data={{label: "夏蜜樱桃", value: "cherry"}}

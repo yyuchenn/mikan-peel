@@ -18,6 +18,8 @@ import CloudPage from "./CloudPage/CloudPage";
 import PeoplePage from "./PeoplePage/PeoplePage";
 import MessagePage from "./MessagePage/MessagePage";
 import UserPage from "./UserPage/UserPage";
+import NotFound from "./NotFound";
+import SignUpPage from "./LoginPage/SignUpPage";
 
 export default function Routes() {
 
@@ -33,6 +35,9 @@ export default function Routes() {
                     </Route>
                     <Route path={"/login"}>
                         <LoginPage/>
+                    </Route>
+                    <Route path={"/signup"}>
+                        <SignUpPage/>
                     </Route>
                     <PrivateRoute path={"/me"}>
                         <DashboardPage/>
@@ -51,6 +56,9 @@ export default function Routes() {
                     </PrivateRoute>
                     <Route path={"/manga/:mid"} children={<MangaPage/>} />
                     <PrivateRoute path={"/user/:uid"} children={<UserPage/>} />
+                    <Route path="*">
+                        <NotFound/>
+                    </Route>
                 </Switch>
             </Border>
             <Snackbar/>

@@ -81,7 +81,7 @@ export default function EditChapterButton(props) {
                     <form onSubmit={handleSubmit}>
                 <DialogContent>
                     <TextField margin="dense" name="name" label="章节标题" type="string" fullWidth/>
-                    <TextField margin="dense" name="id" label="章节ID" type="string" fullWidth/>
+                    <TextField margin="dense" name="id" label="章节ID" type="string" fullWidth helperText="章节ID会出现在URL上，同一漫画内不可重名，最好避免使用汉字。建议：章节数字。"/>
                     <TextField name="ps" label={"備考"} multiline rowsMax={5}/>
                     <List subheader={
                         <ListSubheader component="div">

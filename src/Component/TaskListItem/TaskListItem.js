@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import TagChip from "../TagChip/TagChip";
 import {Link} from "react-router-dom";
 import {localtime_exact} from "../../controller/utils";
+import StatusIcon from "../StatusIcon/StatusIcon";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,10 @@ export default function TaskListItem(props) {
                 {task["status"] === 0 && task["accept_by"]["uid"] !== "" &&
                 <Box>
                     <Typography variant="subtitle1">{localtime_exact(task["accept_on"])}</Typography>
+                </Box>}
+                {task["status"] > 0 &&
+                <Box>
+                    <StatusIcon status={task["status"]}/>
                 </Box>}
             </Box>
         </ExpansionPanelSummary>

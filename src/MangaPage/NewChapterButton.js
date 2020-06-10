@@ -71,11 +71,8 @@ export default function NewChapterButton(props) {
                 <Form onSubmit={onSubmit} render={({handleSubmit}) => (
                     <form onSubmit={handleSubmit}>
                         <DialogContent>
-                            <DialogContentText>
-                                章节ID会出现在URL上，同一漫画内不可重名，最好避免使用汉字。
-                            </DialogContentText>
                             <TextField autoFocus margin="dense" name="name" label="章节标题" type="string" fullWidth/>
-                            <TextField margin="dense" name="id" label="章节ID" type="string" fullWidth/>
+                            <TextField margin="dense" name="id" label="章节ID" type="string" fullWidth helperText="章节ID会出现在URL上，同一漫画内不可重名，最好避免使用汉字。"/>
                             <FormControl component="fieldset">
                                 <FormLabel component="legend">自定义任务流程</FormLabel>
                                 <FormGroup row>
