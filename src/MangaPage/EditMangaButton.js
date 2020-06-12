@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import UserAutocomplete from "../Component/UserAutocomplete/UserAutocomplete";
 
@@ -39,6 +38,7 @@ export default function EditMangaButton(props) {
         values["cover"] = document.getElementById("cover").value;
         values["cherry"] = values["cherry"] === true;
         values["status"] = values["status"] === true ? 1 : 0;
+        values["ps"] = values["ps"] ? values["ps"] : "";
         console.log(values);
         axios.post(API_MANGA + "/" + manga["id"], values, {
             headers: tokenHeader(),

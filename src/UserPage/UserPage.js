@@ -8,16 +8,12 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import {useParams, Link as RouterLink} from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
-import cover from "../cover.jpeg";
-
-import NewChapterButton from "../MangaPage/NewChapterButton";
 import axios from "axios";
 import {API_USER} from "../constant";
 import {setBusy, setSnackbar} from "../controller/site";
 import {useDispatch, useSelector} from "react-redux";
 import {localtime, setTitle} from "../controller/utils";
 import Link from "@material-ui/core/Link";
-import UserChip from "../Component/UserChip/UserChip";
 import {tokenHeader} from "../controller/user";
 import TaskListItem from "../Component/TaskListItem/TaskListItem";
 import ChangePasswordButton from "../Component/ChangePasswordButton/ChangePasswordButton";

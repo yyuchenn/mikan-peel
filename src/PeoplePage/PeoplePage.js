@@ -5,7 +5,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {setTitle} from "../controller/utils";
 import {setBusy, setSnackbar} from "../controller/site";
 import axios from "axios";
-import {API_TASK, API_USER} from "../constant";
+import {API_USER} from "../constant";
 import {useDispatch} from "react-redux";
 import {Box} from "@material-ui/core";
 import UsersTable from "./UsersTable";

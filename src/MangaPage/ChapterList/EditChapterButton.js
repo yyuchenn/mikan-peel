@@ -52,6 +52,7 @@ export default function EditChapterButton(props) {
 
     const onSubmit = (values) => {
         values["tasks"] = tasksList.map(task => task.order);
+        values["ps"] = values["ps"] ? values["ps"] : "";
         console.log(values);
         axios.post(API_MANGA + "/" + chapter["mid"] + "/chapter/" + chapter["id"], values, {
             headers: tokenHeader(),

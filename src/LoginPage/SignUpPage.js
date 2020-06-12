@@ -13,7 +13,7 @@ import {setTitle} from "../controller/utils";
 import {Form} from "react-final-form";
 import {setBusy, setSnackbar} from "../controller/site";
 import axios from "axios";
-import {API_BASE, API_USER} from "../constant";
+import {API_BASE} from "../constant";
 import {tokenHeader} from "../controller/user";
 
 const useStyles = makeStyles((theme) => ({
