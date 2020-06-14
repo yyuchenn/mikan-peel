@@ -50,7 +50,7 @@ export default function DashboardPage(props) {
             <Box display={"flex"} className={classes.titleArea}>
                 <Box flexGrow={1} alignItems="flex-end">
                     <Typography variant="h5">欢迎您,</Typography>
-                    <Typography variant="h1">{username}</Typography>
+                    <Typography variant="h2">{username}</Typography>
                 </Box>
                 <Box><Button onClick={onLogOut}>登出</Button></Box>
             </Box>

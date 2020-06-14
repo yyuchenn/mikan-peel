@@ -11,10 +11,13 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Badge, Popover} from "@material-ui/core";
 import {Link} from "react-router-dom";
 
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import AvatarIcon from "../Component/AvatarIcon/AvatarIcon";
+import {Duck} from "mdi-material-ui";
+import {setSnackbar} from "../controller/site";
+import {timelapse} from "../controller/utils";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -41,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Topbar(props) {
     const {sidebarToggle} = props;
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const privilege = useSelector(state => state.user.privilege);
     const isBusy = useSelector(state => state.site.busy);
@@ -48,6 +52,7 @@ export default function Topbar(props) {
     const number_of_notification = useSelector(state => state.user.number_of_notifications);
     const nickname = useSelector(state => state.user.nickname);
     const avatar = useSelector(state => state.user.avatar);
+    const goo = useSelector(state => state.user.goo_timestamp);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorName, setAnchorName] = React.useState("");
@@ -60,6 +65,10 @@ export default function Topbar(props) {
 
     const handlePopoverClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleGoo = () => {
+        dispatch(setSnackbar(timelapse(goo), "info"));
     };
 
     const open = Boolean(anchorEl);
@@ -78,13 +87,17 @@ export default function Topbar(props) {
                         </IconButton>
                     </Box>
                     <Box>
+                        {privilege > 0 && (<IconButton onMouseEnter={(e) => handlePopoverOpen(e, "咕~")}
+                                                       onMouseLeave={handlePopoverClose} aria-label={"goo"} onClick={handleGoo}>
+                            <Duck fontSize="large"/>
+                        </IconButton>)}
                         {privilege > 0 && (<IconButton onMouseEnter={(e) => handlePopoverOpen(e, "通知")}
                                     onMouseLeave={handlePopoverClose} aria-label={"notification"} component={Link} to={"/message"}>
                             <Badge badgeContent={number_of_notification} overlap={"circle"} color={"secondary"}>
                                 <NotificationsIcon fontSize={"large"}/>
                             </Badge>
                         </IconButton>)}
-                        <IconButton onMouseEnter={(e) => handlePopoverOpen(e, "我")}
+                        <IconButton onMouseEnter={(e) => handlePopoverOpen(e, nickname || "登录")}
                                     onMouseLeave={handlePopoverClose} aria-label={"account"}
                                     component={Link} to={"/me"}>
                             {nickname ? <AvatarIcon name={nickname} avatar={avatar}/> : <AccountCircleIcon fontSize={"large"}/>}

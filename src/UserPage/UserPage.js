@@ -6,17 +6,19 @@ import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import {useParams, Link as RouterLink} from "react-router-dom";
+import {useParams, Link as RouterLink, useHistory} from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
 import axios from "axios";
 import {API_USER} from "../constant";
 import {setBusy, setSnackbar} from "../controller/site";
 import {useDispatch, useSelector} from "react-redux";
-import {localtime, setTitle} from "../controller/utils";
+import {localtime, localtime_exact, setTitle} from "../controller/utils";
 import Link from "@material-ui/core/Link";
 import {tokenHeader} from "../controller/user";
-import TaskListItem from "../Component/TaskListItem/TaskListItem";
 import ChangePasswordButton from "../Component/ChangePasswordButton/ChangePasswordButton";
+import {tableIcons} from "../Component/MaterialTable/tableIcons";
+import StatusIcon from "../Component/StatusIcon/StatusIcon";
+import MaterialTable from "material-table";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +40,7 @@ export default function UserPage(props) {
     const classes = useStyles();
     const {uid} = useParams();
     const dispatch = useDispatch();
+    const history = useHistory();
     const privilege = useSelector(state => state.user.privilege);
 
     const [user, setUser] = useState({});
@@ -123,7 +126,47 @@ export default function UserPage(props) {
                 <Grid item xs={12} md={9}>
                     <Typography variant="h5" style={{marginBottom: "2rem"}}>任务</Typography>
                     <Box display="flex" style={{width: "100%"}} flexDirection="column">
-                        {tasks && tasks.map((task, key) => <TaskListItem task={task} key={key}/>)}
+                        {tasks &&
+                        <MaterialTable icons={tableIcons} columns={[
+                            {title: "漫画", field: "mname"},
+                            {title: "章节", field: "cname"},
+                            {title: "任务", field: "name"},
+                            {title: "类型", field: "type", lookup: {
+                                    0: "其他",
+                                    1: "图源",
+                                    2: "翻译",
+                                    3: "校对",
+                                    4: "嵌字",
+                                    5: "审核",
+                                    6: "发布",
+                                }},
+                            {title: "上一次活跃", field: "last_update", render: task => localtime_exact(task["last_update"])},
+                            {title: "状态", field: "status", render: task => <StatusIcon status={task["status"]}/>, defaultSort: "asc"}
+                        ]} options={{
+                            pageSize: 20,
+                        }} data={tasks} components={{
+                            Toolbar: props => (<></>)
+                        }} onRowClick={(event, rowData, togglePanel) => {
+                            history.push("/manga/" + rowData["mid"] + "/" + rowData["cid"] + "/" + rowData["id"]);
+                        }} localization={{
+                            grouping: {
+                                placeholder: "拖拽表头至此以聚合显示...",
+                                groupedBy: "聚合:"
+                            },
+                            pagination: {
+                                labelDisplayedRows: '第{from}到{to}行 共 {count}行',
+                                labelRowsSelect: '行',
+                                labelRowsPerPage: '每页行数:',
+                                firstAriaLabel: '首页',
+                                firstTooltip: '首页',
+                                previousAriaLabel: '上一页',
+                                previousTooltip: '上一页',
+                                nextAriaLabel: '下一页',
+                                nextTooltip: '下一页',
+                                lastAriaLabel: '末页',
+                                lastTooltip: '末页'
+                            },
+                        }}/>}
                     </Box>
                 </Grid>
             </Grid>

@@ -16,7 +16,7 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 import {useSelector} from "react-redux";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-export const desktopWidth = 100;
+export const desktopWidth = 80;
 const mobileWidth = 150;
 
 const useStyle = makeStyles((theme) => ({
@@ -53,20 +53,20 @@ export default function Sidebar(props) {
 
                     <List disablePadding={true}>
                         <SidebarItem to={"/"} name={"漫画"} sidebarToggle={sidebarToggle}>
-                            <MenuBookIcon style={isDesktop ? {fontSize: 83} : {}}/>
+                            <MenuBookIcon style={isDesktop ? {fontSize: 62} : {}}/>
                         </SidebarItem>
                         <SidebarItem to={"/tasks"} name={"任务"} sidebarToggle={sidebarToggle}>
-                            <DateRangeIcon style={isDesktop ? {fontSize: 83} : {}}/>
+                            <DateRangeIcon style={isDesktop ? {fontSize: 62} : {}}/>
                         </SidebarItem>
                         <SidebarItem to={"/cloud"} name={"文件"} sidebarToggle={sidebarToggle}>
-                            <FolderSharedIcon style={isDesktop ? {fontSize: 83} : {}}/>
+                            <FolderSharedIcon style={isDesktop ? {fontSize: 62} : {}}/>
                         </SidebarItem>
                         <SidebarItem to={"/users"} name={"成员"} sidebarToggle={sidebarToggle}>
-                            <PeopleIcon style={isDesktop ? {fontSize: 83} : {}}/>
+                            <PeopleIcon style={isDesktop ? {fontSize: 62} : {}}/>
                         </SidebarItem>
                         {privilege > 99 &&
                         <SidebarItem to={"/stat"} name={"统计"} sidebarToggle={sidebarToggle}>
-                            <EqualizerIcon style={isDesktop ? {fontSize: 83} : {}}/>
+                            <EqualizerIcon style={isDesktop ? {fontSize: 62} : {}}/>
                         </SidebarItem>}
                     </List>
                 </Box>
@@ -75,7 +75,7 @@ export default function Sidebar(props) {
                     <Divider/>
                     <List>
                         <SidebarItem name={"管理"} sidebarToggle={sidebarToggle}>
-                            <ExtensionIcon style={isDesktop ? {fontSize: 83} : {}}/>
+                            <ExtensionIcon style={isDesktop ? {fontSize: 62} : {}}/>
                         </SidebarItem>
                     </List>
                 </Box>

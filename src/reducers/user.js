@@ -2,6 +2,7 @@ export const FILL_USER = 'FILL_USER';
 export const CLEAN_USER = 'CLEAN_USER';
 export const SET_LOGGING = 'SET_LOGGING';
 export const SET_NOTIFICATIONS = 'SET_NOTIFICATIONS';
+export const SET_GOO = 'SET_GOO';
 
 const user = (state = {privilege: 0, logging: true}, action) => {
     switch (action.type) {
@@ -25,6 +26,10 @@ const user = (state = {privilege: 0, logging: true}, action) => {
         case 'SET_NOTIFICATIONS':
             return Object.assign({}, state, {
                 number_of_notifications: state.number_of_notifications + action.number
+            });
+        case 'SET_GOO':
+            return Object.assign({}, state, {
+                goo_timestamp: action.goo_timestamp
             });
         default:
             return state

@@ -8,7 +8,10 @@ export function setTitle(title) {
 
 export function timelapse(stamp) {
     if (typeof stamp !== "number") return "";
-    var create_time = new Date(stamp * 1000);
+    // var create_time = new Date(stamp * 1000);
+    let create_time = new Date();
+    stamp += create_time.getTimezoneOffset() * 60;
+    create_time = new Date(stamp * 1000);
     var current_time = new Date().getTime();
     var lapse =  current_time - create_time;
     function ms2string(s) {
@@ -29,13 +32,19 @@ export function timelapse(stamp) {
 
 export function localtime(stamp) {
     if (typeof stamp !== "number") return "";
-    let time = new Date(stamp * 1000);
+    // var time = new Date(stamp * 1000);
+    let time = new Date();
+    stamp += time.getTimezoneOffset() * 60;
+    time = new Date(stamp * 1000);
     return time.getFullYear() + "年" + (time.getMonth()+1) + "月" + time.getDate() + "日";
 }
 
 export function localtime_exact(stamp) {
     if (typeof stamp !== "number") return "";
-    let time = new Date(stamp * 1000);
+    // var time = new Date(stamp * 1000);
+    let time = new Date();
+    stamp += time.getTimezoneOffset() * 60;
+    time = new Date(stamp * 1000);
     return time.getFullYear() + "年" + (time.getMonth()+1) + "月" + time.getDate() + "日 " +
         ("0"+time.getHours()).slice(-2) + ":" + ("0"+time.getMinutes()).slice(-2);
 }

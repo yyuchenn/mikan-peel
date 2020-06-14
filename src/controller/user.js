@@ -1,6 +1,6 @@
 import axios from "axios";
 import qs from 'qs';
-import {FILL_USER, SET_LOGGING, SET_NOTIFICATIONS} from "../reducers/user";
+import {FILL_USER, SET_GOO, SET_LOGGING, SET_NOTIFICATIONS} from "../reducers/user";
 import {setBusy, setSnackbar} from "./site";
 import {API_BASE} from "../constant";
 
@@ -80,5 +80,12 @@ export function setLogging(logging) {
 export function setNotifications(number) {
     return dispatch => {
         dispatch(Object.assign({type: SET_NOTIFICATIONS}, {number: number}));
+    };
+}
+
+export function setGoo() {
+    let time = new Date();
+    return dispatch => {
+        dispatch(Object.assign({type: SET_GOO}, {goo_timestamp: (Date.now() - time.getTimezoneOffset() * 60000) / 1000}));
     };
 }

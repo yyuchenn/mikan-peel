@@ -9,6 +9,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import clsx from "clsx";
 import Collapse from "@material-ui/core/Collapse";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
 import NewMangaButton from "./NewMangaButton";
 
 import {useDispatch, useSelector} from "react-redux";
@@ -42,6 +44,7 @@ export default function MainPage(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [showFinished, setShowFinished] = React.useState(false);
     const showCherry = useSelector(state => state.site.showCherry);
+    const broadcast = useSelector(state => state.site.broadcast);
     const dispatch = useDispatch();
 
     useEffect(() => setTitle(""), []);
@@ -63,8 +66,7 @@ export default function MainPage(props) {
             <Box display={"flex"} className={classes.titleArea}>
                 <Box flexGrow={1}>
                     <Typography variant="h5">汉化工房</Typography>
-                    <Typography variant="h1">九九组</Typography>
-
+                    <Typography variant="h2">九九组</Typography>
                 </Box>
                 <Box alignSelf={"flex-end"}>
                     <IconButton
@@ -104,7 +106,11 @@ export default function MainPage(props) {
                         labelPlacement="start"/>
                 </Box>
             </Collapse>
-
+            {broadcast !== "" && 
+            <Alert variant="outlined" severity="info">
+                <AlertTitle>公告</AlertTitle>
+                {broadcast}
+            </Alert>}
             <MangaCardList showFinished={showFinished}/>
         </Container>
     );

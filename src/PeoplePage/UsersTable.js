@@ -17,6 +17,24 @@ export default function UsersTable(props) {
             Toolbar: props => (<></>)
         }} onRowClick={(event, rowData, togglePanel) => {
             history.push("/user/" + rowData["uid"]);
+        }} localization={{
+            grouping: {
+                placeholder: "拖拽表头至此以聚合显示...",
+                groupedBy: "聚合:"
+            },
+            pagination: {
+                labelDisplayedRows: '第{from}到{to}行 共 {count}行',
+                labelRowsSelect: '行',
+                labelRowsPerPage: '每页行数:',
+                firstAriaLabel: '首页',
+                firstTooltip: '首页',
+                previousAriaLabel: '上一页',
+                previousTooltip: '上一页',
+                nextAriaLabel: '下一页',
+                nextTooltip: '下一页',
+                lastAriaLabel: '末页',
+                lastTooltip: '末页'
+            },
         }}/>
         );
 }

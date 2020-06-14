@@ -1,7 +1,6 @@
 import React from "react";
 import Chip from "@material-ui/core/Chip";
 import {taskIcon} from "./icons";
-import {Link} from "react-router-dom";
 
 export default function TaskChip(props) {
     const {label} = props;

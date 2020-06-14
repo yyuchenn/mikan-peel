@@ -11,7 +11,7 @@ import UserChip from "../../../Component/UserChip/UserChip";
 
 import axios from "axios";
 import {API_MANGA} from "../../../constant";
-import {tokenHeader} from "../../../controller/user";
+import {setGoo, tokenHeader} from "../../../controller/user";
 import {setBusy, setSnackbar} from "../../../controller/site";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {Field, Form} from "react-final-form";
@@ -135,6 +135,7 @@ function ToggleButtons(props) {
     };
 
     const handleAssign = (assign_to) => () => {
+        if (assign_to === uid) dispatch(setGoo());
         dispatch(setBusy(true));
         axios.get(API_MANGA + "/" + taskState["mid"] + "/chapter/" + taskState["cid"] + "/task/" + taskState["id"] + "/charge", {
             params: {assign_to: assign_to},
@@ -193,6 +194,7 @@ function ToggleStatusButtons(props) {
             validateStatus: status => status === 200
         }).then(res => res.data).then(res => {
             setTaskState(res);
+            if (to === 1 && taskState["accept_by"]["uid"] === uid) dispatch(setGoo());
         }).catch(err => {
             try {
                 console.log(err.response.data.detail);
