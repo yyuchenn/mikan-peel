@@ -1,17 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import {ThemeProvider} from '@material-ui/core/styles';
+import {responsiveMainThem} from './theme'
+import Routes from "./Routes"
 import * as serviceWorker from './serviceWorker';
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware} from 'redux'
+import mikanPeel from './reducers'
+
+import thunk from "redux-thunk";
+import {SnackbarProvider} from "notistack";
+
+let store = createStore(mikanPeel, applyMiddleware(thunk));
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <ThemeProvider theme={responsiveMainThem}>
+            <SnackbarProvider anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}>
+                <Routes/>
+            </SnackbarProvider>
+        </ThemeProvider>
+    </Provider>,
+    document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();
