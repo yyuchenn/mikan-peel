@@ -40,7 +40,8 @@ export default function NewChapterButton(props) {
         let type = route["no1"] ? 1 : 0;
         type += route["no2"] ? 2 : 0;
         type += route["no4"] ? 4 : 0;
-        type += route["empty"] ? 8 : 0;
+        type += route["no8"] ? 8 : 0;
+        type += route["empty"] ? 16 : 0;
         values["ps"] = "";
         console.log(type);
         console.log(values);
@@ -70,8 +71,8 @@ export default function NewChapterButton(props) {
                 <Form onSubmit={onSubmit} render={({handleSubmit}) => (
                     <form onSubmit={handleSubmit}>
                         <DialogContent>
-                            <TextField autoFocus margin="dense" name="name" label="章节标题" type="string" fullWidth/>
-                            <TextField margin="dense" name="id" label="章节ID" type="string" fullWidth helperText="章节ID会出现在URL上，同一漫画内不可重名，最好避免使用汉字。"/>
+                            <TextField autoFocus margin="dense" name="name" label="章节标题" type="string" fullWidth required/>
+                            <TextField margin="dense" name="id" label="章节ID" type="string" fullWidth required helperText="章节ID会出现在URL上，同一漫画内不可重名，最好避免使用汉字。"/>
                             <FormControl component="fieldset">
                                 <FormLabel component="legend">自定义任务流程</FormLabel>
                                 <FormGroup row>
@@ -89,6 +90,11 @@ export default function NewChapterButton(props) {
                                         control={<Checkbox checked={route["no4"]} onChange={handleRouteChange}
                                                            name="no4"/>}
                                         label="无审核" disabled={route["empty"]}
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox checked={route["no8"]} onChange={handleRouteChange}
+                                                           name="no8"/>}
+                                        label="无发布" disabled={route["empty"]}
                                     />
                                     <FormControlLabel
                                         control={<Checkbox checked={route["empty"]} onChange={handleRouteChange}

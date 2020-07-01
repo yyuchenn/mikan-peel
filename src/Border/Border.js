@@ -62,7 +62,7 @@ function Border(props) {
 
                         {props.children}
 
-                <Footer ver1={"2.1b"} ver2={"0.2"}/>
+                <Footer ver={"0.2.1"}/>
             </main>
 
         </div>

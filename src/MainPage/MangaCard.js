@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         bottom: 0,
         backgroundColor: "black",
-        boxShadow: "20px -20px 20px black, -20px -20px 20px black",
+        // boxShadow: "20px -20px 20px black, -20px -20px 20px black",
         opacity: 0.8
     },
     details: {

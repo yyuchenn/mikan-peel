@@ -23,7 +23,7 @@ export default function TasksTable(props) {
                     5: "审核",
                     6: "发布",
                 }, defaultGroupOrder: 0},
-            {title: "标签", field: "tags", render: task =>
+            {title: "标签", field: "tags", grouping: false, render: task =>
                 <>{task["tags"].map((tag, key) => {
                     return <TagChip tag={tag} size="small" key={key}/>;
                 })}</>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 
 import MangaCard from "./MangaCard";
 import axios from "axios";
@@ -30,12 +30,11 @@ export default function MangaCardList(props) {
     }, []);
 
     return (
-            <Box display={"flex"} flexWrap={"wrap"}
-                 justifyContent={"center"} alignItems={"center"}>
+            <Grid container spacing={1}>
                 {mangas.map((manga) => {
                     if ((!manga.cherry || showCherry) && (manga.status === 0 || showFinished))
-                        return (<MangaCard manga={manga} key={manga.id}/>);
+                        return (<Grid item xs={6} sm={3} md={3} lg={2} key={manga.id}><MangaCard manga={manga}/></Grid>);
                 })}
-            </Box>
+            </Grid>
     );
 }
